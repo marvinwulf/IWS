@@ -1,0 +1,109 @@
+body {
+    margin: 0;
+    padding: 0;
+    background-color: #f6f6f6;
+    font-family: 'Arial', sans-serif;
+}
+
+.top-bar {
+    position: relative;
+    background-color: #efefef;
+    padding: 20px;
+    text-align: left;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    font-family: 'Tahoma', sans-serif;
+    display: flex;
+    align-items: center;
+}
+
+
+
+.top-bar h1 {
+    margin: 0;
+    font-size: 35px;
+    padding-left: 20px;
+    margin-top: -3px;
+}
+
+.menu-links {
+    margin-top: 2px;
+    margin-left: 25px;
+    gap: 15px;
+    display: flex;
+    font-family: 'Arial', sans-serif;
+    font-weight: bold;
+}
+
+.top-bar a {
+    color: #48484b;
+    text-decoration: none;
+}
+
+.top-bar a:hover {
+    color: #94a4a3;
+}
+
+.top-bar a.active {
+    text-decoration: underline;
+    font-weight: bold;
+    color: #3e8eaa;
+}
+
+
+
+
+.grid-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 2fr));
+    gap: 40px;
+    justify-content: center;
+    align-items: center;
+    padding: 40px;
+    height: 50vh;
+}
+
+.rounded-box {
+    position: relative;
+    width: 80%;
+    height: 100px;
+    border-radius: 8px;
+    background-color: #efefef;
+    color: #2d2a38;
+    padding: 30px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    margin: auto; /* Center the box content */
+}
+
+.status {
+    position: absolute;
+    bottom: 10px; /* Adjust as needed for bottom spacing */
+    right: 10px; /* Adjust as needed for right spacing */
+    color: #888; /* Adjust the color as needed */
+}
+
+.status.active {
+    color: #54bb00;
+}
+
+.status.disabled {
+    color: #cd1b1b;
+}
+
+
+.rounded-box p {
+    margin: 0; /* Reset default margin for <p> */
+    font-size: 20px; /* Set the font size for the text */
+    font-family: 'Tahoma', sans-serif;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+
+
+@media screen and (max-width: 600px) {
+    .grid-container {
+        grid-template-columns: repeat(auto-fill, minmax(80%, 1fr));
+    }
+}
+

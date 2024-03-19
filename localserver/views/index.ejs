@@ -1,0 +1,58 @@
+<!-- views/index.ejs -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/styles.css">
+    <title>Dynamic Boxes</title>
+</head>
+<body>
+
+    <div class="top-bar">
+        <a href="/" id="homeLink">
+            <h1>PBW DASHBOARD</h1>
+        </a>
+
+        <div class="menu-links">
+            <a href="/errorlog" id="errorlogLink">ERROR LOG</a>
+            <a href="/devicemanager" id="devicemanagementLink">DEVICE MANAGER</a>
+        </div>
+    </div>
+
+    <div class="grid-container">
+        <% entries.forEach(entry => { %>
+            <div class="rounded-box" data-waterlevel="<%= entry.waterlevel || 0 %>">
+                <p><%= entry.devicefriendlyname %></p>
+                <p class="status <%= entry.status.toLowerCase() %>"><%= entry.status %></p>
+                <svg class="status-svg" xmlns="http://www.w3.org/2000/svg" viewBox="190 -200 2000 2000" width="150" height="150">
+                    <path class="st0 path-1" d="M608.63,366.92C710.27,302.45,830.73,264.96,960,264.96s249.73,37.49,351.37,101.96l61.22-87.43
+                        C1253.49,202.75,1111.91,158,960,158s-293.49,44.75-412.58,121.49L608.63,366.92z" style="fill: <%= entry.waterlevel === 1 ? '#bbbbbb' : (entry.waterlevel === 2 ? '#ff6100' : '#008000') %>;"></path>
+                    <path class="st0 path-2" d="M558.59,402l-61.23-87.45C314.36,454.26,196,674.52,196,922h106.96C302.96,710.33,403.16,522.17,558.59,402z" style="fill: <%= entry.waterlevel === 1 ? '#d80032' : (entry.waterlevel === 2 ? '#ff6100' : '#008000') %>;"></path>
+                    <path class="st0 path-3" d="M1422.64,314.55L1361.41,402c155.44,120.17,255.63,308.33,255.63,520H1724
+                        C1724,674.52,1605.64,454.26,1422.64,314.55z" style="fill: <%= entry.waterlevel === 1 ? '#bbbbbb' : (entry.waterlevel === 2 ? '#bbbbbb' : '#008000') %>;"></path>
+                </svg>
+            </div>
+        <% }); %>
+    </div>
+
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        // Get the current path
+        var currentPath = window.location.pathname;
+
+        // Get the corresponding link element
+        var homeLink = document.getElementById('homeLink');
+
+        // Check the current path and add 'active' class accordingly
+        if (currentPath === '/') {
+            homeLink.classList.add('active');
+        }
+    });
+</script>
+
+
+</body>
+
+</html>
