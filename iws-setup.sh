@@ -4,12 +4,6 @@ echo -e "\033[0;32mStarting IWS Server setup..\033[0m"
 # Change directory to /root
 cd /root/
 echo
-
-# Prompt user for static IP, gateway, and subnet mask
-echo -e "\033[0;33mEnter desired port for MQTT (default: 1883):\033[0m"
-read port
-
-echo
 # Update the package list
 sudo apt update -y
 
@@ -58,10 +52,6 @@ cd /root/.iws/
 wget https://github.com/marvinwulf/IWS/archive/main.zip
 unzip main.zip
 rm main.zip
-
-cd /root/.iws/IWS-main/
-sed -i "s/^port=.*/port=$port/" "config.txt"
-echo "Port updated to $port in config.txt"
 
 echo -e "\033[0;32mInstalling the Node.js Server.\033[0m"
 
