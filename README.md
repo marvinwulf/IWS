@@ -10,7 +10,7 @@ The IWS boards run on ESPhome firmware for the API functionality, therefore maki
 
 The server can be any computer available on your network. Here, it natively runs on a Raspberry Pi (`ARMv7 or later`), with headless DietPi OS to conserve resources. Instructions for installation and booting can be found below:
 
-# Installation of the IWS Server
+# Installation of the IWS Server / OUTDATED
 If you don't have an operating system running on your Pi already, we recommend you to use DietPi, although any desired OS will work.
 If you want to run the IWS Server on another device and operating system, it is totally possible too.
 
