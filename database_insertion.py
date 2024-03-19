@@ -62,7 +62,7 @@ def on_connect(client, userdata, flags, rc, properties=None):
     if rc == 0:
         print(f"{Colors.GREEN}DB Manager:{Colors.LIME} Erfolgreich mit MQTT Broker verbunden{Colors.RESET}")
     else:
-        print(f"{Colors.RED}DB Manager: Verbindung mit Fehlercode {rc} auf Adresse {config.get('staticip')} fehlgeschlagen{Colors.RESET}")
+        print(f"{Colors.RED}DB Manager: Verbindung mit Fehlercode {rc} fehlgeschlagen{Colors.RESET}")
 
 
 def on_message(client, userdata, msg):
