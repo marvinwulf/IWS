@@ -13,7 +13,7 @@ class Colors:
 def on_connect(client, userdata, flags, rc, properties=None):
     client.subscribe("iwscom/wakeup")
     if rc == 0:
-        print(f"{Colors.GREEN}Handle:{Colors.LIME} Erfolgreich mit MQTT Broker auf Adresse 192.168.178.29 verbunden{Colors.RESET}")
+        print(f"{Colors.GREEN}Handle:{Colors.LIME} Erfolgreich mit MQTT Broker verbunden{Colors.RESET}")
     else:
         print(f"{Colors.RED}Handle: Verbindung mit Fehlercode {rc} auf Adresse {config.get('staticip')} fehlgeschlagen{Colors.RESET}")
 
