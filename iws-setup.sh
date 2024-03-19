@@ -59,6 +59,6 @@ echo -e "\033[0;32mInstalling the Node.js Server.\033[0m"
 cd /root/.iws/IWS-main/localserver
 sudo apt install nodejs npm -y
 npm init -y
-npm install express sqlite3
+npm install express sqlite3 ejs
 
 echo -e "\033[0;36mIWS Server Installation finished.\033[0m"
