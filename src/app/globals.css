@@ -1,0 +1,288 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.ms-dummy {
+  display: none;
+}
+
+.font-ms {
+  font-family: var(--font-montserrat);
+}
+
+@media (max-width: 800px) {
+  .solutions-text {
+    display: none;
+  }
+  .ms-dummy {
+    display: block;
+  }
+}
+
+:root {
+  --ms-fg: #263238;
+  --ms-hbg: #fff;
+  --ms-bg: #fafafa;
+  --ms-accent-0: #f5f5f5;
+  --ms-accent: #eaeaea;
+  --ms-accent-1: #c2c2c2;
+  --ms-accent-2: #a8a8a8;
+  --ms-accent-3: #616161;
+  --ms-accent-4: #292929;
+  --ms-button-hover: #f0f2f4;
+  --ms-sec-text: #607d8b;
+
+  --ms-green: #009446;
+  --ms-orange: #ff6100;
+  --ms-red: #d80032;
+}
+
+body,
+html {
+  margin: 0;
+  height: 100vh;
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+}
+
+header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+
+  height: 64px;
+  margin: 0;
+  padding: 0 32px;
+
+  background-color: var(--ms-hbg);
+  box-shadow: inset 0 -1px 0 0 var(--ms-accent);
+}
+
+main {
+  margin-top: 64px;
+  margin-bottom: 32px;
+  overflow-y: scroll;
+  height: 100%;
+  width: 100vw;
+  color: var(--ms-fg);
+  background: var(--ms-bg);
+}
+
+footer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+
+  height: 32px;
+  margin: 0;
+  padding: 0;
+
+  background-color: var(--ms-hbg);
+  box-shadow: inset 0 1px 0 0 var(--ms-accent);
+}
+
+.highlight {
+  border: 1px solid;
+  border-color: rgb(255, 0, 255);
+}
+
+.gridpro {
+  display: inline-grid;
+  gap: 1px;
+  vertical-align: top;
+  overflow: hidden;
+  justify-content: center;
+  transition: all 0.4s ease;
+}
+
+.grid1by1 {
+  grid-template-columns: 240px;
+  grid-template-rows: 240px;
+
+  & > *:nth-child(n + 2) {
+    display: none;
+  }
+}
+
+.grid1by2 {
+  grid-template-columns: 120px;
+  grid-template-rows: 120px 120px;
+
+  & > *:nth-child(n + 3) {
+    display: none;
+  }
+}
+
+.grid2by2 {
+  grid-template-columns: 120px 120px;
+  grid-template-rows: 120px 120px;
+
+  & > *:nth-child(n + 5) {
+    display: none;
+  }
+}
+
+.grid2by3 {
+  grid-template-columns: 80px 80px;
+  grid-template-rows: 80px 80px 80px;
+
+  & > *:nth-child(n + 7) {
+    display: none;
+  }
+}
+
+.grid2by4 {
+  grid-template-columns: 60px 60px;
+  grid-template-rows: 60px 60px 60px 60px;
+
+  & > *:nth-child(n + 9) {
+    display: none;
+  }
+}
+
+.grid3by4 {
+  grid-template-columns: 60px 60px 60px;
+  grid-template-rows: 60px 60px 60px 60px;
+
+  & > *:nth-child(n + 13) {
+    display: none;
+  }
+}
+
+.grid4by4 {
+  grid-template-columns: 60px 60px 60px 60px;
+  grid-template-rows: 60px 60px 60px 60px;
+
+  & > *:nth-child(n + 17) {
+    display: none;
+  }
+}
+
+.grid8byauto {
+  grid-auto-flow: column;
+  grid-template-rows: 60px 60px 60px 60px 60px 60px 60px 60px;
+}
+
+/* Animation Keyframes */
+
+@keyframes shrink-large {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(0.95);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+@keyframes shrink-small {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(0.98);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+/* Button Classes */
+
+.button-1 {
+  border-radius: 5px;
+  padding: 4px 8px;
+  margin-left: 4px;
+  display: inline-block;
+  color: var(--ms-accent-3);
+
+  transition: all 0.15s ease;
+
+  &:hover {
+    color: var(--ms-fg);
+    background-color: var(--ms-button-hover);
+  }
+
+  &:active {
+    animation: shrink-large 0.1s ease-in-out;
+  }
+}
+
+.button-2 {
+  border-radius: 5px;
+  padding: 4px 8px;
+  display: inline-block;
+  background-color: var(--ms-fg);
+  color: var(--ms-hbg);
+
+  transition: all 0.15s ease;
+
+  &:hover {
+    color: var(--ms-fg);
+    background-color: var(--ms-button-hover);
+  }
+
+  &:active {
+    animation: shrink-large 0.1s ease-in-out;
+  }
+}
+
+.button-3 {
+  background-color: var(--ms-sec-text);
+  color: var(--ms-bg);
+
+  transition: all 0.15s ease;
+
+  &:hover {
+    background-color: var(--ms-accent-2);
+  }
+}
+
+.nav-box {
+  border-radius: 5px;
+  padding: 3px 10px;
+  display: inline-block;
+
+  transition: all 0.15s ease;
+
+  &:hover {
+    background-color: var(--ms-button-hover);
+  }
+}
+
+/* Animation Classes */
+
+.sa-sm:active {
+  animation: shrink-small 0.1s ease-in-out;
+}
+
+.sa-lg:active {
+  animation: shrink-large 0.1s ease-in-out;
+}
+
+.hover-default:hover {
+  background-color: var(--ms-button-hover);
+}
+
+.hover-dark {
+  transition: all 0.35s ease;
+
+  &:hover {
+    background-color: var(--ms-accent-4);
+  }
+}
+
+.tr {
+  transition: all 0.15s ease;
+}
