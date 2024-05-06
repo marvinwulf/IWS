@@ -30,7 +30,7 @@
   --ms-accent-3: #616161;
   --ms-accent-4: #292929;
   --ms-button-hover: #f0f2f4;
-  --ms-sec-text: #607d8b;
+  --ms-colored: #009788;
 
   --ms-green: #009446;
   --ms-orange: #ff6100;
@@ -239,13 +239,13 @@ footer {
 }
 
 .button-3 {
-  background-color: var(--ms-sec-text);
+  background-color: var(--ms-accent-3);
   color: var(--ms-bg);
 
   transition: all 0.15s ease;
 
   &:hover {
-    background-color: var(--ms-accent-2);
+    background-color: var(--ms-colored);
   }
 }
 

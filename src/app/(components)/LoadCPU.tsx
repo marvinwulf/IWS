@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Progress, Typography, Menu, MenuHandler, MenuList } from "@material-tailwind/react";
 
-export default function CPUDisplay() {
+export default function LoadCPU() {
   const [cpuLoad, setCpuLoad] = useState("- ");
   const [loadPerCore, setLoadPerCore] = useState<any>([]);
   const [gridClass, setGridClass] = React.useState("");
@@ -130,46 +130,46 @@ export default function CPUDisplay() {
                     <i className="mdi mdi-poll "></i>
                   </div>
                 </div>
-                <Typography variant="h4" className="text-ms-sec-text font-light text-end w-[100px]">
+                <Typography variant="h4" className="text-ms-accent-3 font-light mb-[1px]  text-end w-[100px]">
                   {systemInfo.speed} GHz
                 </Typography>
               </div>
 
-              <div className=" text-ms-fg -mt-0.5 mb-4">{systemInfo.brand}</div>
+              <div className=" text-ms-fg -mt-0.5 pb-3 mb-3 border-b border-b-ms-accent">{systemInfo.brand}</div>
 
               <div className="flex justify-between mb-0.5">
-                <div>Sockets:</div>
-                <div>{systemInfo.processors}</div>
+                <p>Sockets:</p>
+                <p>{systemInfo.processors}</p>
               </div>
 
               <div className="flex justify-between mb-0.5">
-                <div>Kerne:</div>
-                <div>{systemInfo.physicalCores}</div>
+                <p>Kerne:</p>
+                <p>{systemInfo.physicalCores}</p>
               </div>
 
               <div className="flex justify-between mb-0.5">
-                <div>Logische Prozessoren:</div>
-                <div>{systemInfo.cores}</div>
+                <p>Logische Prozessoren:</p>
+                <p>{systemInfo.cores}</p>
               </div>
 
               <div className="flex justify-between mb-0.5">
-                <div>Virtualisation:</div>
-                <div>{systemInfo.virtualization ? "Aktiviert" : "Deaktiviert"}</div>
+                <p>Virtualisation:</p>
+                <p>{systemInfo.virtualization ? "Aktiviert" : "Deaktiviert"}</p>
               </div>
 
               <div className="flex justify-between mb-0.5">
-                <div>L1-Cache:</div>
-                <div>{convertSize(cacheInfo.l1d + cacheInfo.l1i || cacheInfo.l1 || "-")}</div>
+                <p>L1-Cache:</p>
+                <p>{convertSize(cacheInfo.l1d + cacheInfo.l1i || cacheInfo.l1 || "-")}</p>
               </div>
 
               <div className="flex justify-between mb-0.5">
-                <div>L2-Cache:</div>
-                <div>{convertSize(cacheInfo.l2 || "-")}</div>
+                <p>L2-Cache:</p>
+                <p>{convertSize(cacheInfo.l2 || "-")}</p>
               </div>
 
               <div className="flex justify-between">
-                <div>L3-Cache:</div>
-                <div>{convertSize(cacheInfo.l3 || "-")}</div>
+                <p>L3-Cache:</p>
+                <p>{convertSize(cacheInfo.l3 || "-")}</p>
               </div>
             </div>
 
@@ -182,9 +182,9 @@ export default function CPUDisplay() {
                     style={{ backgroundColor: gradientColor(load) }}
                   >
                     <div className={`${coreLoadHover ? "text-ms-accent-1" : "text-ms-hbg"} text-end px-1.5 py-0.5 text-sm tr`}>{index}</div>
-                    <div className={`${coreLoadHover ? "opacity-100" : "opacity-0"} text-end px-1.5 py-0.5 text-sm text-ms-hbg cursor-default tr`}>
+                    <p className={`${coreLoadHover ? "opacity-100" : "opacity-0"} text-end px-1.5 py-0.5 text-sm text-ms-hbg cursor-default tr`}>
                       {load} %
-                    </div>
+                    </p>
                   </div>
                 </div>
               ))}

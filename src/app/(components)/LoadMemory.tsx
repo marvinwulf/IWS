@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Progress, Typography, Menu, MenuHandler, MenuList } from "@material-tailwind/react";
 
-export default function MemoryDisplay() {
+export default function LoadMemory() {
   const [memLoad, setMemLoad] = useState<any>(["- "]);
   const [memInfo, setMemInfo] = useState<any>(["-"]);
   const [memStats, setMemStats] = useState<any>(["-"]);
@@ -90,7 +90,7 @@ export default function MemoryDisplay() {
                         key={index}
                         onClick={() => setSelectedSlotIndex(index)}
                         className={`aspect-square h-[10px] cursor-pointer hover:opacity-85 ${
-                          selectedSlotIndex === index ? "bg-ms-orange" : "bg-ms-sec-text"
+                          selectedSlotIndex === index ? "bg-ms-colored" : "bg-ms-accent-3"
                         }`}
                         title={`Slot: ${index}`}
                       />
@@ -99,14 +99,14 @@ export default function MemoryDisplay() {
                 )}
               </div>
 
-              <Typography variant="h4" className="text-ms-sec-text font-light text-end w-[110px]">
+              <Typography variant="h4" className="text-ms-accent-3 font-light text-end w-[110px]">
                 {slots} {slots > 1 ? "Slots" : "Slot"}
               </Typography>
             </div>
 
-            <div className="flex items-end justify-center mb-2 mt-1.5">
+            <div className="flex items-end justify-center border-y border-ms-accent mb-2 py-2 mt-1.5">
               <div>
-                <div className="text-ms-sec-text -my-1">Belegt</div>
+                <p className="text-ms-accent-3 -mb-1">Belegt</p>
                 <Typography
                   variant="h5"
                   className="flex text-ms-fg font-light"
@@ -119,7 +119,7 @@ export default function MemoryDisplay() {
                 /
               </Typography>
               <div>
-                <div className="text-ms-sec-text -my-1">Gesamt</div>
+                <p className="text-ms-accent-3 -my-1">Gesamt</p>
                 <Typography variant="h5" className="flex text-ms-fg font-light">
                   {convertSize(memInfo.swaptotal)}
                 </Typography>
@@ -128,28 +128,28 @@ export default function MemoryDisplay() {
 
             <div className="flex flex-col justify-between">
               <div className="flex justify-between mb-0.5">
-                <div>Bank:</div>
-                <div>{memStats[selectedSlotIndex].bank || "-"}</div>
+                <p>Bank:</p>
+                <p>{memStats[selectedSlotIndex].bank || "-"}</p>
               </div>
 
               <div className="flex justify-between mb-0.5">
-                <div>Kapazität:</div>
-                <div>{convertSize(memStats[selectedSlotIndex].size) || "-"}</div>
+                <p>Kapazität:</p>
+                <p>{convertSize(memStats[selectedSlotIndex].size) || "-"}</p>
               </div>
 
               <div className="flex justify-between mb-0.5">
-                <div>Taktfrequenz:</div>
-                <div>{memStats[selectedSlotIndex].clockSpeed || "-"} MHz</div>
+                <p>Taktfrequenz:</p>
+                <p>{memStats[selectedSlotIndex].clockSpeed || "-"} MHz</p>
               </div>
 
               <div className="flex justify-between mb-0.5">
-                <div>Typ:</div>
-                <div>{memStats[selectedSlotIndex].type || "-"}</div>
+                <p>Typ:</p>
+                <p>{memStats[selectedSlotIndex].type || "-"}</p>
               </div>
 
-              <div className="flex justify-between mb-0.5">
-                <div>Formfaktor:</div>
-                <div>{memStats[selectedSlotIndex].formFactor || "-"}</div>
+              <div className="flex justify-between">
+                <p>Formfaktor:</p>
+                <p>{memStats[selectedSlotIndex].formFactor || "-"}</p>
               </div>
             </div>
           </div>

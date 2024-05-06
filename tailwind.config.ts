@@ -22,7 +22,7 @@ const config: Config = withMT({
       "ms-accent-3": "#616161",
       "ms-accent-4": "#292929",
       "ms-button-hover": "#f0f2f4",
-      "ms-sec-text": "#607d8b",
+      "ms-colored": "#009788",
       "ms-red": "#d80032",
       "ms-orange": "#ff6100",
       "ms-green": "#009446",

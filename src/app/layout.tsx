@@ -8,8 +8,9 @@ import Image from "next/image";
 
 import CenterMenu from "./(components)/CenterMenu";
 import ContactDrawer from "./(components)/ContactDrawer";
-import LoadDisplay from "./(components)/LoadCPU";
+import LoadCPU from "./(components)/LoadCPU";
 import LoadMemory from "./(components)/LoadMemory";
+import LoadDisk from "./(components)/LoadDisk";
 
 const Montserrat_init = Montserrat({
   subsets: ["latin"],
@@ -60,8 +61,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
 
           <footer>
             <div className="flex items-center w-full ml-4 gap-4">
-              <LoadDisplay />
+              <LoadCPU />
               <LoadMemory />
+              <LoadDisk />
             </div>
           </footer>
 
