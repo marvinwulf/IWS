@@ -14,7 +14,7 @@ const config: Config = withMT({
     colors: {
       "ms-fg": "#263238",
       "ms-hbg": "#fff",
-      "ms-bg": "#fafafa",
+      "ms-bg": "#f9fafb",
       "ms-accent-0": "#f5f5f5",
       "ms-accent": "#eaeaea",
       "ms-accent-1": "#c2c2c2",

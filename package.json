@@ -10,17 +10,21 @@
   },
   "dependencies": {
     "@material-tailwind/react": "^2.1.9",
+    "better-sqlite3": "^9.6.0",
     "child_process": "^1.0.2",
+    "fs": "^0.0.1-security",
     "next": "14.2.1",
     "os-utils": "^0.0.14",
     "react": "^18",
     "react-circular-progressbar": "^2.1.0",
     "react-dom": "^18",
     "react-hook-form": "^7.51.3",
+    "sqlite3": "^5.1.7",
     "systeminformation": "^5.22.7",
     "use-react-countries": "^2.0.1"
   },
   "devDependencies": {
+    "@types/better-sqlite3": "^7.6.10",
     "@types/node": "^20",
     "@types/react": "^18.2.42",
     "@types/react-dom": "^18",

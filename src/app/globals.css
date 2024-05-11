@@ -22,7 +22,7 @@
 :root {
   --ms-fg: #263238;
   --ms-hbg: #fff;
-  --ms-bg: #fafafa;
+  --ms-bg: #f9fafb;
   --ms-accent-0: #f5f5f5;
   --ms-accent: #eaeaea;
   --ms-accent-1: #c2c2c2;
@@ -170,6 +170,10 @@ footer {
 .grid8byauto {
   grid-auto-flow: column;
   grid-template-rows: 60px 60px 60px 60px 60px 60px 60px 60px;
+}
+
+.device-grid-container {
+  display: grid;
 }
 
 /* Animation Keyframes */

@@ -17,8 +17,8 @@ export default function CenterMenu() {
   return (
     <Menu open={openMenu} handler={setOpenMenu} allowHover>
       <MenuHandler>
-        <div className="nav-box">
-          <div className="flex items-center justify-end">
+        <div className="nav-box mb-0.5">
+          <div className="flex items-center justify-end -mb-0.5">
             <div className="pr-0.5 -ml-1.5">
               <i className={`mdi mdi-menu-down text-ms-accent-3 transition-transform ${openMenu ? "rotate-180" : ""}`}></i>
             </div>
