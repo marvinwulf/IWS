@@ -172,9 +172,6 @@ footer {
   grid-template-rows: 60px 60px 60px 60px 60px 60px 60px 60px;
 }
 
-.device-grid-container {
-  display: grid;
-}
 
 /* Animation Keyframes */
 

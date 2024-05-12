@@ -28,13 +28,13 @@ export default function Page() {
   const getBatteryIconClass = (batteryPercentage: number) => {
     const roundedPercentage = Math.round(batteryPercentage / 10) * 10;
     if (roundedPercentage) {
-      return `mdi mdi-battery-${roundedPercentage} px-3 text-lg text-ms-fg`;
+      return `mdi mdi-battery-${roundedPercentage}`;
     } else {
-      return `mdi mdi-battery-alert px-3 text-lg text-ms-fg`;
+      return `mdi mdi-battery-alert`;
     }
   };
 
-  const getWlIndicatoColors = (currentwl: number, indicatorBar: number) => {
+  const getWlIndicatorColors = (currentwl: number, indicatorBar: number) => {
     switch (indicatorBar) {
       case 0:
         switch (currentwl) {
@@ -67,11 +67,11 @@ export default function Page() {
   };
 
   return (
-    <div className="device-grid-container p-10 gap-10">
+    <div className="flex p-10 gap-6 justify-center flex-wrap">
       {devices.map((device: any, index: number) => (
         <div
           key={index}
-          className="flex flex-col w-56 border rounded-md overflow-hidden cursor-pointer shadow-lg shadow-gray-200 hover:shadow-gray-300 hover:scale-105 tr"
+          className="flex flex-col w-52 border rounded-md overflow-hidden cursor-pointer shadow-lg shadow-gray-200 hover:shadow-gray-300 hover:scale-105 tr"
         >
           <div className="bg-ms-hbg border-b border-ms-accent">
             <div className="flex items-center px-4 py-3 gap-3 -mb-0.5">
@@ -80,20 +80,22 @@ export default function Page() {
             </div>
           </div>
           <div className="flex items-center justify-between">
-            <div className="flex flex-grow bg-ms-bg py-4 pl-4 pr-3 gap-0.5">
-              <div className={`h-2 w-[33%] rounded-l-md ${getWlIndicatoColors(device.currentwl, 0)}`}></div>
-              <div className={`h-2 w-[33%]  ${getWlIndicatoColors(device.currentwl, 1)}`}></div>
-              <div className={`h-2 w-[33%] rounded-r-md ${getWlIndicatoColors(device.currentwl, 2)}`}></div>
+            <div className="flex flex-grow bg-ms-bg py-4 pl-4 pr-2 gap-0.5">
+              <div className={`h-2 w-[33%] rounded-l-md ${getWlIndicatorColors(device.currentwl, 0)}`}></div>
+              <div className={`h-2 w-[33%]  ${getWlIndicatorColors(device.currentwl, 1)}`}></div>
+              <div className={`h-2 w-[33%] rounded-r-md ${getWlIndicatorColors(device.currentwl, 2)}`}></div>
             </div>
             <Tooltip
-              content={device.battery + "%"}
+              content={device.battery !== null ? device.battery + "%" : "Batteriefehler"}
               animate={{
                 mount: { scale: 1, y: 0 },
                 unmount: { scale: 0, y: 25 },
               }}
               className="bg-ms-hbg text-ms-fg border border-ms-accents mt-1"
             >
-              <i className={getBatteryIconClass(device.battery)}></i>
+              <div className="flex justify-center items-center aspect-square w-[30.45px] mr-2 rounded-2xl hover:bg-ms-accent tr">
+                <i className={`text-center text-lg text-ms-fg  ${getBatteryIconClass(device.battery)}`}></i>
+              </div>
             </Tooltip>
           </div>
         </div>
