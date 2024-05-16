@@ -172,7 +172,6 @@ footer {
   grid-template-rows: 60px 60px 60px 60px 60px 60px 60px 60px;
 }
 
-
 /* Animation Keyframes */
 
 @keyframes shrink-large {
@@ -286,4 +285,14 @@ footer {
 
 .tr {
   transition: all 0.15s ease;
+}
+
+.blinkanim {
+  animation: blinker 1s linear infinite;
+}
+
+@keyframes blinker {
+  90% {
+    opacity: 0;
+  }
 }
