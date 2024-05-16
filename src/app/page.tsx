@@ -3,10 +3,17 @@
 import { Typography, Tooltip } from "@material-tailwind/react";
 import { useEffect, useState } from "react";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 
 export default function Page() {
   const [devices, setDevices] = useState<any>([]);
   const [waterlevels, setWaterlevels] = useState<any>([]);
+
+  const router = useRouter();
+
+  const handleDeviceDirect = (deviceName: string) => {
+    router.push(`/devices/${encodeURIComponent(deviceName)}`);
+  };
 
   useEffect(() => {
     const fetchDiskInfo = async () => {
@@ -84,6 +91,7 @@ export default function Page() {
                 <div
                   key={index}
                   className="flex flex-col w-52 border rounded-md overflow-hidden cursor-pointer shadow-lg shadow-gray-200 hover:shadow-gray-300 hover:scale-105 tr"
+                  onClick={() => handleDeviceDirect(device.devicename)}
                 >
                   <div className={`bg-ms-hbg border-b border-ms-accent ${device.status === 1 ? "border-ms-accent" : "border-ms-red"}`}>
                     <div className="flex items-center px-4 py-3 gap-3 -mb-0.5">
@@ -127,6 +135,7 @@ export default function Page() {
                 <div
                   key={index}
                   className="flex flex-col w-52 border rounded-md overflow-hidden cursor-pointer shadow-lg shadow-gray-200 hover:shadow-gray-300 hover:scale-105 tr"
+                  onClick={() => handleDeviceDirect(device.devicename)}
                 >
                   <div className={`bg-ms-hbg border-b border-ms-accent ${device.status === 1 ? "border-ms-accent" : "border-ms-red"}`}>
                     <div className="flex items-center px-4 py-3 gap-3 -mb-0.5">
@@ -169,6 +178,7 @@ export default function Page() {
                 <div
                   key={index}
                   className="flex flex-col w-52 border rounded-md overflow-hidden cursor-pointer shadow-lg shadow-gray-200 hover:shadow-gray-300 hover:scale-105 tr"
+                  onClick={() => handleDeviceDirect(device.devicename)}
                 >
                   <div className="bg-ms-hbg border-b border-ms-accent">
                     <div className="flex items-center px-4 py-3 gap-3 -mb-0.5">
