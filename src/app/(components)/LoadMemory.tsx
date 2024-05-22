@@ -24,21 +24,16 @@ export default function LoadMemory() {
 
   const fetchMemInfo = async () => {
     try {
-      const res = await fetch("/api/system/memload");
+      const res = await fetch("/api/system");
       if (!res.ok) {
         throw new Error("Failed to fetch Memory load");
       }
       const data = await res.json();
-      setMemLoad(data.totalLoad);
-      setMemInfo(data.ramData);
+      setMemLoad(data.data.memory.totalLoad);
+      setMemInfo(data.data.memory.data);
 
-      const res2 = await fetch("/api/system/staticinfo");
-      if (!res2.ok) {
-        throw new Error("Failed to fetch system info");
-      }
-      const data2 = await res2.json();
-      setMemStats(data2.RAM);
-      setSlots(data2.RAM.length);
+      setMemStats(data.data.staticInfo.RAM);
+      setSlots(data.data.staticInfo.RAM.length);
     } catch (error) {
       console.error("Error fetching data:", error);
     }
@@ -52,7 +47,7 @@ export default function LoadMemory() {
     } else if (sizeInB >= 1024) {
       return ((sizeInB / 1024) * 1024).toFixed(2) + " KB";
     } else {
-      return sizeInB + "B";
+      return sizeInB || "- " + "B";
     }
   }
 
@@ -75,7 +70,7 @@ export default function LoadMemory() {
             </div>
           </div>
         </MenuHandler>
-        <MenuList className="hidden lg:flex overflow-visible border-ms-accent p-3 -mt-3">
+        <MenuList className="hidden sm:flex overflow-visible border-ms-accent p-3 -mt-3">
           <div className="flex flex-col outline-none text-ms-fg px-2">
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-2">

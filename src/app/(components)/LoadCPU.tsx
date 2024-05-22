@@ -25,23 +25,19 @@ export default function LoadCPU() {
 
   const fetchSystemInfo = async () => {
     try {
-      const res = await fetch("/api/system/cpuload");
+      const res = await fetch("/api/system");
       if (!res.ok) {
-        throw new Error("Failed to fetch CPU load");
+        throw new Error("Failed to fetch system load");
       }
       const data = await res.json();
-      setCpuLoad(data.totalLoad);
-      setLoadPerCore(data.loadPerCore);
 
-      const res2 = await fetch("/api/system/staticinfo");
-      if (!res2.ok) {
-        throw new Error("Failed to fetch system info");
-      }
-      const data2 = await res2.json();
-      setSystemInfo(data2.CPU);
-      setCacheInfo(data2.CPU.cache);
+      setCpuLoad(data.data.cpu.totalLoad);
+      setLoadPerCore(data.data.cpu.loadPerCore);
 
-      const len = data.loadPerCore.length;
+      setSystemInfo(data.data.staticInfo.CPU);
+      setCacheInfo(data.data.staticInfo.CPU.cache);
+
+      const len = data.data.cpu.loadPerCore.length;
       let gridClass = "";
       switch (true) {
         case len === 1:
@@ -114,7 +110,7 @@ export default function LoadCPU() {
             </div>
           </div>
         </MenuHandler>
-        <MenuList className="hidden lg:flex overflow-visible border-ms-accent p-3 ml-4 -mt-3">
+        <MenuList className="hidden sm:flex overflow-visible border-ms-accent p-3 ml-4 -mt-3">
           <div className="flex h-full outline-none">
             <div className="flex-1 text-ms-fg pr-6 pl-2">
               <div className="flex items-center justify-between">

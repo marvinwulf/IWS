@@ -7,7 +7,7 @@ export async function register() {
       const cpuInfo = { CPU: await si.cpu(), RAM: await si.memLayout() };
 
       fs.writeFileSync("./public/staticinfo.json", JSON.stringify(cpuInfo));
-      console.log("Sys information gathered and saved successfully.");
+      console.log("System information gathered and saved successfully.");
 
       return { props: {} };
     } catch (error) {

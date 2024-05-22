@@ -25,7 +25,7 @@ export default function LoadDisk() {
 
   const fetchDiskInfo = async () => {
     try {
-      const res = await fetch("/api/system/diskload");
+      const res = await fetch("/api/system");
       if (!res.ok) {
         throw new Error("Failed to fetch Disk load");
       }
@@ -33,13 +33,13 @@ export default function LoadDisk() {
 
       let totalDiskUse = 0;
       let totalDiskSpace = 0;
-      for (let index = 0; index < data.disks.length; index++) {
-        totalDiskUse += data.disks[index].used;
-        totalDiskSpace += data.disks[index].size;
+      for (let index = 0; index < data.data.disks.length; index++) {
+        totalDiskUse += data.data.disks[index].used;
+        totalDiskSpace += data.data.disks[index].size;
       }
 
       setDiskLoad(Math.ceil((totalDiskUse / totalDiskSpace) * 100));
-      setDiskInfo(data.disks);
+      setDiskInfo(data.data.disks);
 
       let totalData = { used: totalDiskUse, size: totalDiskSpace, available: totalDiskSpace - totalDiskUse };
       setTotalDiskInfo(totalData);
@@ -101,7 +101,7 @@ export default function LoadDisk() {
             </div>
           </div>
         </MenuHandler>
-        <MenuList className="hidden lg:flex overflow-visible border-ms-accent p-3 -mt-3">
+        <MenuList className="hidden sm:flex overflow-visible border-ms-accent p-3 -mt-3">
           <div className="flex flex-col outline-none text-ms-fg px-2 gap-3">
             <div className="flex items-center gap-2 -mb-1.5">
               <Typography variant="h3" className="text-ms-fg">

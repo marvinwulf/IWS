@@ -1,36 +1,43 @@
 "use client";
 
-import { Typography, Tooltip } from "@material-tailwind/react";
+import { Typography, Tooltip, Spinner, IconButton } from "@material-tailwind/react";
 import { useEffect, useState } from "react";
 import Image from "next/image";
-import { useRouter } from "next/navigation";
+import Modal from "./(components)/Modal";
 
 export default function Page() {
   const [devices, setDevices] = useState<any>([]);
-  const [waterlevels, setWaterlevels] = useState<any>([]);
+  const [dbfetchloaded, setLoaded] = useState(false);
 
-  const router = useRouter();
+  const [openDeviceMenu, setOpenDeviceMenu] = useState(false);
 
-  const handleDeviceDirect = (deviceName: string) => {
-    router.push(`/devices/${encodeURIComponent(deviceName)}`);
+  const [selectedDeviceData, setSelectedDeviceData] = useState<any>([]);
+
+  const closeDeviceMenuHandler = () => {
+    setOpenDeviceMenu(false);
+  };
+
+  const openDeviceMenuHandler = (devicename: any) => {
+    setOpenDeviceMenu(true);
+    setSelectedDeviceData(devices.find((device: any) => device.devicename === devicename));
   };
 
   useEffect(() => {
-    const fetchDiskInfo = async () => {
+    const fetchDb = async () => {
       try {
         const res = await fetch("/api/fetchdb");
         if (!res.ok) {
           throw new Error("Failed to fetch Database");
         }
         const data = await res.json();
-
+        setLoaded(true);
         setDevices(data.devices);
       } catch (error) {
         console.error("Error fetching data:", error);
       }
     };
 
-    fetchDiskInfo();
+    fetchDb();
   }, []);
 
   const getBatteryIconClass = (batteryPercentage: number) => {
@@ -80,145 +87,184 @@ export default function Page() {
 
   return (
     <>
-      {devices.filter((device: any) => (device.currentwl === 0 && device.status === 1) || (device.battery <= 5 && device.battery != null)).length >
-        0 && (
-        <>
-          <span className="relative top-[26px] left-[45px] bg-ms-bg px-2 text-ms-orange text-sm">Geräte, die Aufmerksamkeit benötigen</span>
-          <div className="flex px-4 mx-6 pt-8 mt-4 gap-6 flex-wrap border-t border-ms-orange">
-            {devices
-              .filter((device: any) => (device.currentwl === 0 && device.status === 1) || (device.battery <= 5 && device.battery != null))
-              .map((device: any, index: number) => (
-                <div
-                  key={index}
-                  className="flex flex-col w-52 border rounded-md overflow-hidden cursor-pointer shadow-lg shadow-gray-200 hover:shadow-gray-300 hover:scale-105 tr"
-                  onClick={() => handleDeviceDirect(device.devicename)}
-                >
-                  <div className={`bg-ms-hbg border-b border-ms-accent ${device.status === 1 ? "border-ms-accent" : "border-ms-red"}`}>
-                    <div className="flex items-center px-4 py-3 gap-3 -mb-0.5">
-                      <div className={`aspect-square h-[8px] rounded-lg ${device.status === 1 ? "bg-ms-green" : "bg-ms-red"}`}></div>
-                      <p className="text-ms-fg font-light text-lg">{device.devicefriendlyname}</p>
-                    </div>
-                  </div>
-                  <div className="flex items-center justify-between">
-                    <div className="flex flex-grow bg-ms-bg my-4 ml-4 pr-2 gap-0.5">
-                      <div className={`h-2 w-[33%] rounded-l-md ${getWlIndicatorColors(device.currentwl, 0)}`}></div>
-                      <div className={`h-2 w-[33%]  ${getWlIndicatorColors(device.currentwl, 1)}`}></div>
-                      <div className={`h-2 w-[33%] rounded-r-md ${getWlIndicatorColors(device.currentwl, 2)}`}></div>
-                    </div>
-                    <Tooltip
-                      content={device.battery !== null ? device.battery + "%" : "Batteriefehler"}
-                      animate={{
-                        mount: { scale: 1, y: 0 },
-                        unmount: { scale: 0, y: 25 },
-                      }}
-                      className="bg-ms-hbg text-ms-fg border border-ms-accents mt-1"
+      {dbfetchloaded ? (
+        <div>
+          {devices.filter((device: any) => (device.currentwl === 0 && device.status === 1) || (device.battery <= 5 && device.battery != null))
+            .length > 0 && (
+            <>
+              <span className="relative top-[26px] left-[45px] bg-ms-bg px-2 text-ms-orange text-sm">Geräte, die Aufmerksamkeit benötigen</span>
+              <div className="flex px-4 mx-6 pt-8 mt-4 gap-6 flex-wrap border-t border-ms-orange">
+                {devices
+                  .filter((device: any) => (device.currentwl === 0 && device.status === 1) || (device.battery <= 5 && device.battery != null))
+                  .map((device: any, index: number) => (
+                    <div
+                      key={index}
+                      className="flex flex-col w-52 border rounded-md overflow-hidden cursor-pointer shadow-lg shadow-gray-200 hover:shadow-gray-300 hover:scale-105 tr"
+                      onClick={() => openDeviceMenuHandler(device.devicename)}
                     >
-                      <div className="flex justify-center items-center aspect-square w-[30.45px] mr-2 rounded-2xl hover:bg-ms-accent tr">
-                        <i className={`text-center text-lg text-ms-fg  ${getBatteryIconClass(device.battery)}`}></i>
+                      <div className="bg-ms-hbg border-b border-ms-accent">
+                        <div className="flex items-center px-4 py-3 gap-3 -mb-0.5">
+                          <div className={`aspect-square h-[8px] rounded-lg ${device.status === 1 ? "bg-ms-green" : "bg-ms-red"}`}></div>
+                          <p className="text-ms-fg font-light text-lg">{device.devicefriendlyname}</p>
+                        </div>
                       </div>
-                    </Tooltip>
-                  </div>
-                </div>
-              ))}
-          </div>
-        </>
-      )}
+                      <div className="flex items-center justify-between">
+                        <div className="flex flex-grow bg-ms-bg my-4 ml-4 pr-2 gap-0.5">
+                          <div className={`h-2 w-[33%] rounded-l-md ${getWlIndicatorColors(device.currentwl, 0)}`}></div>
+                          <div className={`h-2 w-[33%]  ${getWlIndicatorColors(device.currentwl, 1)}`}></div>
+                          <div className={`h-2 w-[33%] rounded-r-md ${getWlIndicatorColors(device.currentwl, 2)}`}></div>
+                        </div>
+                        <Tooltip
+                          content={device.battery !== null ? device.battery + "%" : "Batteriefehler"}
+                          animate={{
+                            mount: { scale: 1, y: 0 },
+                            unmount: { scale: 0, y: 25 },
+                          }}
+                          className="bg-ms-hbg text-ms-fg border border-ms-accents mt-1"
+                        >
+                          <div className="flex justify-center items-center aspect-square w-[30.45px] mr-2 rounded-2xl hover:bg-ms-accent tr">
+                            <i className={`text-center text-lg text-ms-fg  ${getBatteryIconClass(device.battery)}`}></i>
+                          </div>
+                        </Tooltip>
+                      </div>
+                    </div>
+                  ))}
+              </div>
+            </>
+          )}
 
-      {devices.filter((device: any) => device.currentwl != 0 && device.status === 1 && (device.battery > 5 || device.battery === null)).length >
-        0 && (
-        <>
-          <span className="relative top-[26px] left-[45px] bg-ms-bg px-2 text-ms-accent-2 text-sm">Geräte: Online</span>
-          <div className="flex px-4 mx-6 pt-8 mt-4 gap-6 flex-wrap border-t border-ms-accent-1">
-            {devices
-              .filter((device: any) => device.currentwl != 0 && device.status === 1 && (device.battery > 5 || device.battery === null))
-              .map((device: any, index: number) => (
-                <div
-                  key={index}
-                  className="flex flex-col w-52 border rounded-md overflow-hidden cursor-pointer shadow-lg shadow-gray-200 hover:shadow-gray-300 hover:scale-105 tr"
-                  onClick={() => handleDeviceDirect(device.devicename)}
-                >
-                  <div className={`bg-ms-hbg border-b border-ms-accent ${device.status === 1 ? "border-ms-accent" : "border-ms-red"}`}>
-                    <div className="flex items-center px-4 py-3 gap-3 -mb-0.5">
-                      <div className={`aspect-square h-[8px] rounded-lg ${device.status === 1 ? "bg-ms-green" : "bg-ms-red"}`}></div>
-                      <p className="text-ms-fg font-light text-lg">{device.devicefriendlyname}</p>
-                    </div>
-                  </div>
-                  <div className="flex items-center justify-between">
-                    <div className="flex flex-grow bg-ms-bg my-4 ml-4 pr-2 gap-0.5">
-                      <div className={`h-2 w-[33%] rounded-l-md ${getWlIndicatorColors(device.currentwl, 0)}`}></div>
-                      <div className={`h-2 w-[33%]  ${getWlIndicatorColors(device.currentwl, 1)}`}></div>
-                      <div className={`h-2 w-[33%] rounded-r-md ${getWlIndicatorColors(device.currentwl, 2)}`}></div>
-                    </div>
-                    <Tooltip
-                      content={device.battery != null ? device.battery + "%" : "Batteriefehler"}
-                      animate={{
-                        mount: { scale: 1, y: 0 },
-                        unmount: { scale: 0, y: 25 },
-                      }}
-                      className="bg-ms-hbg text-ms-fg border border-ms-accents mt-1"
+          {devices.filter((device: any) => device.currentwl != 0 && device.status === 1 && (device.battery > 5 || device.battery === null)).length >
+            0 && (
+            <>
+              <span className="relative top-[26px] left-[45px] bg-ms-bg px-2 text-ms-accent-2 text-sm">Geräte: Online</span>
+              <div className="flex px-4 mx-6 pt-8 mt-4 gap-6 flex-wrap border-t border-ms-accent-1">
+                {devices
+                  .filter((device: any) => device.currentwl != 0 && device.status === 1 && (device.battery > 5 || device.battery === null))
+                  .map((device: any, index: number) => (
+                    <div
+                      key={index}
+                      className="flex flex-col w-52 border rounded-md overflow-hidden cursor-pointer shadow-lg shadow-gray-200 hover:shadow-gray-300 hover:scale-105 tr"
+                      onClick={() => openDeviceMenuHandler(device.devicename)}
                     >
-                      <div className="flex justify-center items-center aspect-square w-[30.45px] mr-2 rounded-2xl hover:bg-ms-accent tr">
-                        <i className={`text-center text-lg text-ms-fg  ${getBatteryIconClass(device.battery)}`}></i>
+                      <div className="bg-ms-hbg border-b border-ms-accent">
+                        <div className="flex items-center px-4 py-3 gap-3 -mb-0.5">
+                          <div className={`aspect-square h-[8px] rounded-lg ${device.status === 1 ? "bg-ms-green" : "bg-ms-red"}`}></div>
+                          <p className="text-ms-fg font-light text-lg">{device.devicefriendlyname}</p>
+                        </div>
                       </div>
-                    </Tooltip>
-                  </div>
-                </div>
-              ))}
-          </div>
-        </>
-      )}
+                      <div className="flex items-center justify-between">
+                        <div className="flex flex-grow bg-ms-bg my-4 ml-4 pr-2 gap-0.5">
+                          <div className={`h-2 w-[33%] rounded-l-md ${getWlIndicatorColors(device.currentwl, 0)}`}></div>
+                          <div className={`h-2 w-[33%]  ${getWlIndicatorColors(device.currentwl, 1)}`}></div>
+                          <div className={`h-2 w-[33%] rounded-r-md ${getWlIndicatorColors(device.currentwl, 2)}`}></div>
+                        </div>
+                        <Tooltip
+                          content={device.battery != null ? device.battery + "%" : "Batteriefehler"}
+                          animate={{
+                            mount: { scale: 1, y: 0 },
+                            unmount: { scale: 0, y: 25 },
+                          }}
+                          className="bg-ms-hbg text-ms-fg border border-ms-accents mt-1"
+                        >
+                          <div className="flex justify-center items-center aspect-square w-[30.45px] mr-2 rounded-2xl hover:bg-ms-accent tr">
+                            <i className={`text-center text-lg text-ms-fg  ${getBatteryIconClass(device.battery)}`}></i>
+                          </div>
+                        </Tooltip>
+                      </div>
+                    </div>
+                  ))}
+              </div>
+            </>
+          )}
 
-      {devices.filter((device: any) => device.status === 0).length > 0 && (
-        <>
-          <span className="relative top-[26px] left-[45px] bg-ms-bg px-2 text-ms-accent-2 text-sm">Geräte: Offline</span>
-          <div className="flex px-4 mx-6 pt-8 mt-4 mb-8 gap-6 flex-wrap border-t border-ms-accent-1">
-            {devices
-              .filter((device: any) => device.status === 0)
-              .map((device: any, index: number) => (
-                <div
-                  key={index}
-                  className="flex flex-col w-52 border rounded-md overflow-hidden cursor-pointer shadow-lg shadow-gray-200 hover:shadow-gray-300 hover:scale-105 tr"
-                  onClick={() => handleDeviceDirect(device.devicename)}
-                >
-                  <div className="bg-ms-hbg border-b border-ms-accent">
-                    <div className="flex items-center px-4 py-3 gap-3 -mb-0.5">
-                      <div className={`aspect-square h-[8px] rounded-lg ${device.status === 1 ? "bg-ms-green" : "bg-ms-red"}`}></div>
-                      <p className="text-ms-fg font-light text-lg">{device.devicefriendlyname}</p>
-                    </div>
-                  </div>
-                  <div className="flex items-center justify-between">
-                    <div className="flex flex-grow bg-ms-bg my-4 ml-4 pr-2 gap-0.5">
-                      <div className={`h-2 w-[33%] rounded-l-md ${getWlIndicatorColors(device.currentwl, 0)}`}></div>
-                      <div className={`h-2 w-[33%]  ${getWlIndicatorColors(device.currentwl, 1)}`}></div>
-                      <div className={`h-2 w-[33%] rounded-r-md ${getWlIndicatorColors(device.currentwl, 2)}`}></div>
-                    </div>
-                    <Tooltip
-                      content={device.battery !== null ? device.battery + "%" : "Batteriefehler"}
-                      animate={{
-                        mount: { scale: 1, y: 0 },
-                        unmount: { scale: 0, y: 25 },
-                      }}
-                      className="bg-ms-hbg text-ms-fg border border-ms-accents mt-1"
+          {devices.filter((device: any) => device.status === 0).length > 0 && (
+            <>
+              <span className="relative top-[26px] left-[45px] bg-ms-bg px-2 text-ms-accent-2 text-sm">Geräte: Offline</span>
+              <div className="flex px-4 mx-6 pt-8 mt-4 mb-8 gap-6 flex-wrap border-t border-ms-accent-1">
+                {devices
+                  .filter((device: any) => device.status === 0)
+                  .map((device: any, index: number) => (
+                    <div
+                      key={index}
+                      className="flex flex-col w-52 border rounded-md overflow-hidden cursor-pointer shadow-lg shadow-gray-200 hover:shadow-gray-300 hover:scale-105 tr"
+                      onClick={() => openDeviceMenuHandler(device.devicename)}
                     >
-                      <div className="flex justify-center items-center aspect-square w-[30.45px] mr-2 rounded-2xl hover:bg-ms-accent tr">
-                        <i className={`text-center text-lg text-ms-fg  ${getBatteryIconClass(device.battery)}`}></i>
+                      <div className="bg-ms-hbg border-b border-ms-accent">
+                        <div className="flex items-center px-4 py-3 gap-3 -mb-0.5">
+                          <div className={`aspect-square h-[8px] rounded-lg ${device.status === 1 ? "bg-ms-green" : "bg-ms-red"}`}></div>
+                          <p className="text-ms-fg font-light text-lg">{device.devicefriendlyname}</p>
+                        </div>
                       </div>
-                    </Tooltip>
-                  </div>
-                </div>
-              ))}
-          </div>
-        </>
-      )}
+                      <div className="flex items-center justify-between">
+                        <div className="flex flex-grow bg-ms-bg my-4 ml-4 pr-2 gap-0.5">
+                          <div className={`h-2 w-[33%] rounded-l-md ${getWlIndicatorColors(device.currentwl, 0)}`}></div>
+                          <div className={`h-2 w-[33%]  ${getWlIndicatorColors(device.currentwl, 1)}`}></div>
+                          <div className={`h-2 w-[33%] rounded-r-md ${getWlIndicatorColors(device.currentwl, 2)}`}></div>
+                        </div>
+                        <Tooltip
+                          content={device.battery !== null ? device.battery + "%" : "Batteriefehler"}
+                          animate={{
+                            mount: { scale: 1, y: 0 },
+                            unmount: { scale: 0, y: 25 },
+                          }}
+                          className="bg-ms-hbg text-ms-fg border border-ms-accents mt-1"
+                        >
+                          <div className="flex justify-center items-center aspect-square w-[30.45px] mr-2 rounded-2xl hover:bg-ms-accent tr">
+                            <i className={`text-center text-lg text-ms-fg  ${getBatteryIconClass(device.battery)}`}></i>
+                          </div>
+                        </Tooltip>
+                      </div>
+                    </div>
+                  ))}
+              </div>
+            </>
+          )}
 
-      {devices.length === 0 ? (
+          {devices.length === 0 && (
+            <div className="flex items-center justify-center w-full h-full pb-16">
+              <div className="flex flex-col items-center justify-end w-[200px] h-[160px] overflow-hidden">
+                <Image className="-mb-8" alt="No Content Cat Mascot" src="/cat-mascot-void.svg" width={200} height={200} />
+                <p className="text-ms-accent-3 text-center text-lg">Noch keine IWS Geräte</p>
+              </div>
+            </div>
+          )}
+        </div>
+      ) : (
         <div className="flex items-center justify-center w-full h-full pb-16">
-          <div className="flex flex-col items-center justify-end w-[200px] h-[160px] overflow-hidden">
-            <Image className="-mb-8" alt="No Content Cat Mascot" src="/cat-mascot-void.svg" width={200} height={200} />
-            <p className="text-ms-accent-3 text-center text-lg">Noch keine IWS Geräte</p>
+          <div className="flex flex-col gap-4 items-center justify-end overflow-hidden">
+            <Spinner className="h-10 w-10" />
+            <p className="text-sm">Daten aktualisieren</p>
           </div>
         </div>
-      ) : null}
+      )}
+
+      <Modal isVisible={openDeviceMenu}>
+        <div className="flex">
+          <div className="flex-1 bg-ms-hbg h-[85vh] w-[260px] rounded-l-md"></div>
+          <div className="flex flex-col">
+            <div className="flex items-center gap-2 bg-ms-hbg h-[7vh] min-h-[44px] w-[60vw] rounded-se-md border-ms-accent pb-2">
+              <div className="absolute right-4">
+                <IconButton variant="text" color="blue-gray" onClick={closeDeviceMenuHandler}>
+                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="h-5 w-5">
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
+                  </svg>
+                </IconButton>
+              </div>
+              <i className="mdi mdi-view-dashboard text-2xl ml-3"></i>
+              <div>
+                <div className="flex items-center gap-2 -mb-1.5 -mt-1 hover:opacity-75 hover:scale-105 tr cursor-pointer">
+                  <Typography variant="h4" className="text-ms-fg">
+                    {selectedDeviceData.devicefriendlyname}
+                  </Typography>
+                  <div className="mdi mdi-pencil text-lg text-ms-accent-3"></div>
+                </div>
+                <p className="text-ms-accent-3 text-sm">UID: {selectedDeviceData.devicename}</p>
+              </div>
+            </div>
+            <div className="flex-1 bg-ms-bg rounded-md border border-ms-accent"></div>
+          </div>
+        </div>
+      </Modal>
     </>
   );
 }
