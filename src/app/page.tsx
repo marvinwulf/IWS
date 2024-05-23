@@ -22,6 +22,7 @@ export default function Page() {
   };
 
   const te_handleDeviceUpdate = async () => {
+    selectedDeviceData.devicefriendlyname = selectedDeviceData.devicefriendlyname || "Unbenannt";
     const updatedDevices = devices.map((device: any) => {
       if (device.devicename === selectedDeviceData.devicename) {
         return { ...device, devicefriendlyname: selectedDeviceData.devicefriendlyname };
@@ -153,7 +154,13 @@ export default function Page() {
                       <div className="bg-ms-hbg border-b border-ms-accent">
                         <div className="flex items-center px-4 py-3 gap-3 -mb-0.5">
                           <div className={`aspect-square h-[8px] rounded-lg ${device.status === 1 ? "bg-ms-green" : "bg-ms-red"}`}></div>
-                          <p className="text-ms-fg font-light text-lg whitespace-nowrap w-24">{device.devicefriendlyname}</p>
+
+                          <p
+                            className="text-ms-fg font-light text-lg whitespace-nowrap overflow-x-clip overflow-ellipsis w-40"
+                            title={device.devicefriendlyname}
+                          >
+                            {device.devicefriendlyname}
+                          </p>
                         </div>
                       </div>
                       <div className="flex items-center justify-between">
@@ -197,7 +204,12 @@ export default function Page() {
                       <div className="bg-ms-hbg border-b border-ms-accent">
                         <div className="flex items-center px-4 py-3 gap-3 -mb-0.5">
                           <div className={`aspect-square h-[8px] rounded-lg ${device.status === 1 ? "bg-ms-green" : "bg-ms-red"}`}></div>
-                          <p className="text-ms-fg font-light text-lg overflow-ellipsis">{device.devicefriendlyname}</p>
+                          <p
+                            className="text-ms-fg font-light text-lg whitespace-nowrap overflow-x-clip overflow-ellipsis w-40"
+                            title={device.devicefriendlyname}
+                          >
+                            {device.devicefriendlyname}
+                          </p>
                         </div>
                       </div>
                       <div className="flex items-center justify-between">
@@ -240,7 +252,12 @@ export default function Page() {
                       <div className="bg-ms-hbg border-b border-ms-accent">
                         <div className="flex items-center px-4 py-3 gap-3 -mb-0.5">
                           <div className={`aspect-square h-[8px] rounded-lg ${device.status === 1 ? "bg-ms-green" : "bg-ms-red"}`}></div>
-                          <p className="text-ms-fg font-light text-lg">{device.devicefriendlyname}</p>
+                          <p
+                            className="text-ms-fg font-light text-lg whitespace-nowrap overflow-x-clip overflow-ellipsis w-40"
+                            title={device.devicefriendlyname}
+                          >
+                            {device.devicefriendlyname}
+                          </p>
                         </div>
                       </div>
                       <div className="flex items-center justify-between">
@@ -286,11 +303,11 @@ export default function Page() {
         </div>
       )}
 
-      <Modal isVisible={openDeviceMenu}>
+      <Modal isVisible={openDeviceMenu} onClose={closeDeviceMenuHandler}>
         <div className="flex">
-          <div className="flex-1 bg-ms-hbg h-[85vh] w-[260px] rounded-l-md"></div>
+          <div className="flex-1 bg-ms-hbg h-[80vh] w-[260px] rounded-l-md"></div>
           <div className="flex flex-col">
-            <div className="flex items-center gap-2 bg-ms-hbg h-[7vh] min-h-[64px] w-[60vw] rounded-se-md border-ms-accent pb-2">
+            <div className="flex items-center gap-3 bg-ms-hbg h-[7vh] min-h-[64px] w-[60vw] rounded-se-md border-ms-accent pb-2">
               <div className="absolute right-4">
                 <IconButton variant="text" color="blue-gray" onClick={closeDeviceMenuHandler}>
                   <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="h-5 w-5">
@@ -311,13 +328,13 @@ export default function Page() {
                         te_setInputLength(e.target.value.length);
                       }}
                       className="outline-none text-ms-fg text-2xl font-bold editing w-[55vw]"
-                      maxLength={60}
+                      maxLength={32}
                       ref={inputRef}
                       onBlur={te_handleDeviceUpdate}
                       onKeyDown={te_handleKeyDown}
                     />
                   </div>
-                  <p className="text-ms-accent-3 text-sm">{te_inputLength} / 60 Zeichen</p>
+                  <p className="text-ms-accent-3 text-sm">{te_inputLength} / 32 Zeichen</p>
                 </div>
               ) : (
                 <div>
