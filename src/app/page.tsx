@@ -1,7 +1,7 @@
 "use client";
 
 import { Typography, Tooltip, Spinner, IconButton } from "@material-tailwind/react";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import Image from "next/image";
 import Modal from "./(components)/Modal";
 
@@ -9,13 +9,61 @@ export default function Page() {
   const [devices, setDevices] = useState<any>([]);
   const [dbfetchloaded, setLoaded] = useState(false);
 
-  const [openDeviceMenu, setOpenDeviceMenu] = useState(false);
-
   const [selectedDeviceData, setSelectedDeviceData] = useState<any>([]);
 
-  const closeDeviceMenuHandler = () => {
-    setOpenDeviceMenu(false);
+  const inputRef = useRef<any>(null);
+
+  //Name Editor constants
+  const [te_inputLength, te_setInputLength] = useState(0);
+  const [te_isEditing, te_setIsEditing] = useState(false);
+  const te_handleEditName = () => {
+    te_setIsEditing(!te_isEditing);
+    te_setInputLength(selectedDeviceData.devicefriendlyname.length);
   };
+
+  const te_handleDeviceUpdate = async () => {
+    const updatedDevices = devices.map((device: any) => {
+      if (device.devicename === selectedDeviceData.devicename) {
+        return { ...device, devicefriendlyname: selectedDeviceData.devicefriendlyname };
+      }
+      return device;
+    });
+
+    setDevices(updatedDevices);
+    te_setIsEditing(false);
+
+    try {
+      const response = await fetch("/api/fetchdb", {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(selectedDeviceData),
+      });
+
+      if (!response.ok) {
+        throw new Error("Failed to update device data");
+      }
+    } catch (error) {
+      console.error("Error updating device data:", error);
+    }
+  };
+
+  const te_handleKeyDown = (e: any) => {
+    if (e.key === "Enter") {
+      te_handleDeviceUpdate();
+    }
+  };
+
+  useEffect(() => {
+    if (te_isEditing && inputRef.current != null) {
+      inputRef.current.focus();
+    }
+  }, [te_isEditing]);
+
+  //Device Modal Menu constants
+  const [openDeviceMenu, setOpenDeviceMenu] = useState(false);
+  const closeDeviceMenuHandler = () => setOpenDeviceMenu(false);
 
   const openDeviceMenuHandler = (devicename: any) => {
     setOpenDeviceMenu(true);
@@ -105,7 +153,7 @@ export default function Page() {
                       <div className="bg-ms-hbg border-b border-ms-accent">
                         <div className="flex items-center px-4 py-3 gap-3 -mb-0.5">
                           <div className={`aspect-square h-[8px] rounded-lg ${device.status === 1 ? "bg-ms-green" : "bg-ms-red"}`}></div>
-                          <p className="text-ms-fg font-light text-lg">{device.devicefriendlyname}</p>
+                          <p className="text-ms-fg font-light text-lg whitespace-nowrap w-24">{device.devicefriendlyname}</p>
                         </div>
                       </div>
                       <div className="flex items-center justify-between">
@@ -149,7 +197,7 @@ export default function Page() {
                       <div className="bg-ms-hbg border-b border-ms-accent">
                         <div className="flex items-center px-4 py-3 gap-3 -mb-0.5">
                           <div className={`aspect-square h-[8px] rounded-lg ${device.status === 1 ? "bg-ms-green" : "bg-ms-red"}`}></div>
-                          <p className="text-ms-fg font-light text-lg">{device.devicefriendlyname}</p>
+                          <p className="text-ms-fg font-light text-lg overflow-ellipsis">{device.devicefriendlyname}</p>
                         </div>
                       </div>
                       <div className="flex items-center justify-between">
@@ -242,7 +290,7 @@ export default function Page() {
         <div className="flex">
           <div className="flex-1 bg-ms-hbg h-[85vh] w-[260px] rounded-l-md"></div>
           <div className="flex flex-col">
-            <div className="flex items-center gap-2 bg-ms-hbg h-[7vh] min-h-[44px] w-[60vw] rounded-se-md border-ms-accent pb-2">
+            <div className="flex items-center gap-2 bg-ms-hbg h-[7vh] min-h-[64px] w-[60vw] rounded-se-md border-ms-accent pb-2">
               <div className="absolute right-4">
                 <IconButton variant="text" color="blue-gray" onClick={closeDeviceMenuHandler}>
                   <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="h-5 w-5">
@@ -251,15 +299,35 @@ export default function Page() {
                 </IconButton>
               </div>
               <i className="mdi mdi-view-dashboard text-2xl ml-3"></i>
-              <div>
-                <div className="flex items-center gap-2 -mb-1.5 -mt-1 hover:opacity-75 hover:scale-105 tr cursor-pointer">
-                  <Typography variant="h4" className="text-ms-fg">
-                    {selectedDeviceData.devicefriendlyname}
-                  </Typography>
-                  <div className="mdi mdi-pencil text-lg text-ms-accent-3"></div>
+
+              {te_isEditing ? (
+                <div>
+                  <div className="-mb-1 -mt-1">
+                    <input
+                      type="text"
+                      value={selectedDeviceData.devicefriendlyname}
+                      onChange={(e) => {
+                        setSelectedDeviceData({ ...selectedDeviceData, devicefriendlyname: e.target.value });
+                        te_setInputLength(e.target.value.length);
+                      }}
+                      className="outline-none text-ms-fg text-2xl font-bold editing w-[55vw]"
+                      maxLength={60}
+                      ref={inputRef}
+                      onBlur={te_handleDeviceUpdate}
+                      onKeyDown={te_handleKeyDown}
+                    />
+                  </div>
+                  <p className="text-ms-accent-3 text-sm">{te_inputLength} / 60 Zeichen</p>
                 </div>
-                <p className="text-ms-accent-3 text-sm">UID: {selectedDeviceData.devicename}</p>
-              </div>
+              ) : (
+                <div>
+                  <div className="flex items-center gap-2 -mb-1 -mt-1 hover:opacity-75 hover:scale-105 tr cursor-pointer" onClick={te_handleEditName}>
+                    <p className="text-ms-fg text-2xl font-bold">{selectedDeviceData.devicefriendlyname}</p>
+                    <div className="mdi mdi-pencil text-lg text-ms-accent-3"></div>
+                  </div>
+                  <p className="text-ms-accent-3 text-sm">UID: {selectedDeviceData.devicename}</p>
+                </div>
+              )}
             </div>
             <div className="flex-1 bg-ms-bg rounded-md border border-ms-accent"></div>
           </div>

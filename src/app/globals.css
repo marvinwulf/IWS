@@ -291,8 +291,18 @@ footer {
   animation: blinker 1s linear infinite;
 }
 
+.editing {
+  animation: blinker2 1.5s linear infinite;
+}
+
 @keyframes blinker {
   90% {
     opacity: 0;
+  }
+}
+
+@keyframes blinker2 {
+  50% {
+    opacity: 0.25;
   }
 }
