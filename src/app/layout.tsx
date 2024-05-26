@@ -61,9 +61,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
 
           <footer>
             <div className="flex items-center w-full ml-4 gap-4">
-              <LoadCPU />
+              {/* <LoadCPU />
               <LoadMemory />
-              <LoadDisk />
+              <LoadDisk /> */}
             </div>
           </footer>
 

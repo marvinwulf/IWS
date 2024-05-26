@@ -14,10 +14,10 @@ let lastFetchTime: any = {
   memory: 0,
 };
 
-const CPU_CACHE_DURATION = 4000; // 4 seconds
-const RAM_DISK_CACHE_DURATION = 16000; // 16 seconds
+const CPU_CACHE_DURATION = 4000;
+const RAM_DISK_CACHE_DURATION = 16000;
 
-let staticInfoFetched = false; // Flag to track if static info has been fetched
+let staticInfoFetched = false;
 
 async function fetchStaticInfoOnce() {
   try {
@@ -28,7 +28,7 @@ async function fetchStaticInfoOnce() {
 
       cachedData.staticInfo = staticInfo;
 
-      staticInfoFetched = true; // Set the flag to true after fetching static info
+      staticInfoFetched = true;
     }
   } catch (error) {
     console.error("Error fetching static information:", error);
@@ -82,15 +82,12 @@ async function fetchMemoryData() {
   }
 }
 
-// Fetch static info once on server startup
 fetchStaticInfoOnce();
 
-// Initial fetch for dynamic data
 fetchCPUData();
 fetchDiskData();
 fetchMemoryData();
 
-// Set up intervals to update the dynamic data cache
 setInterval(fetchCPUData, CPU_CACHE_DURATION);
 setInterval(fetchDiskData, RAM_DISK_CACHE_DURATION);
 setInterval(fetchMemoryData, RAM_DISK_CACHE_DURATION);

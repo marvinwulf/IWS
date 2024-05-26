@@ -12,17 +12,14 @@ const config: Config = withMT({
       },
     },
     colors: {
-      "ms-fg": "#263238",
-      "ms-hbg": "#fff",
-      "ms-bg": "#f9fafb",
-      "ms-accent-0": "#f5f5f5",
-      "ms-accent": "#eaeaea",
-      "ms-accent-1": "#c2c2c2",
-      "ms-accent-2": "#a8a8a8",
-      "ms-accent-3": "#616161",
-      "ms-accent-4": "#292929",
-      "ms-button-hover": "#f0f2f4",
-      "ms-colored": "#009788",
+      "ms-fg": "#263238", // Vordergrund Farbe
+      "ms-hbg": "#fff", // Hervorgehobener Background
+      "ms-bg": "#f9fafb", // Background Farbe
+      "ms-accent": "#eaeaea", // 1 Akzent LIGHT: Border Accent 2 Go
+      "ms-accent-1": "#c2c2c2", // Border Accent, um Text accent-2 von Wahrnehmung zu matchen
+      "ms-accent-2": "#a8a8a8", // 2 Akzent MEDIUM: Alternativen Accent to use
+      "ms-accent-3": "#616161", // 3 Akzent DARK: Subtitle Text Farbe
+      "ms-colored": "#009788", // Farbakzent Farbe
       "ms-red": "#d80032",
       "ms-orange": "#ff6100",
       "ms-green": "#009446",

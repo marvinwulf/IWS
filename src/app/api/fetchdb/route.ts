@@ -10,40 +10,43 @@ export async function GET(req: Request, res: NextResponse) {
   return NextResponse.json({ devices: rows });
 }
 
+function pushPut(input) {
+  let query = "UPDATE devices SET ";
+  let params = [];
+  let values = [];
+
+  const columns = {
+    devicefriendlyname: "devicefriendlyname",
+    threshold: "threshold",
+    watervolume: "watervolume",
+    currentwl: "currentwl",
+    battery: "battery",
+    currentsoilhumid: "currentsoilhumid",
+    status: "status",
+  };
+
+  for (const key in input) {
+    if (input.hasOwnProperty(key) && columns[key]) {
+      query += `${columns[key]} = ?, `;
+      params.push(input[key]);
+    }
+  }
+
+  query = query.slice(0, -2);
+
+  query += " WHERE devicename = ?";
+  params.push(input.devicename);
+
+  // Execute the SQL query
+  const stmt = db.prepare(query);
+  const result = stmt.run(...params);
+
+  return result;
+}
+
 export async function PUT(req: Request) {
   try {
-    // Ensure Content-Type is application/json
-    if (req.headers.get("Content-Type") !== "application/json") {
-      console.error("Invalid Content-Type:", req.headers.get("Content-Type"));
-      return NextResponse.json({ message: "Invalid Content-Type" }, { status: 400 });
-    }
-
-    let postData;
-    try {
-      postData = await req.json();
-    } catch (error) {
-      console.error("Error parsing JSON:", error);
-      return NextResponse.json({ message: "Invalid JSON format" }, { status: 400 });
-    }
-
-    const { devicename, devicefriendlyname, threshold, watervolume, status } = postData;
-
-    const stmt = db.prepare(
-      `UPDATE devices 
-      SET devicefriendlyname = @devicefriendlyname, 
-          threshold = @threshold, 
-          watervolume = @watervolume, 
-          status = @status 
-      WHERE devicename = @devicename`
-    );
-
-    const result = stmt.run({
-      devicename: devicename,
-      devicefriendlyname: devicefriendlyname,
-      threshold: threshold,
-      watervolume: watervolume,
-      status: status,
-    });
+    const result = pushPut(await req.json());
 
     if (result.changes > 0) {
       return NextResponse.json({ message: "success" }, { status: 200 });
