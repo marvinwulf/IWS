@@ -6,8 +6,28 @@ const dbPath = path.resolve("database/pbw.db");
 const db = sqlite(dbPath);
 
 export async function GET(req: Request, res: NextResponse) {
-  const rows = db.prepare("SELECT * FROM devices").all();
-  return NextResponse.json({ devices: rows });
+  const url = new URL(req.url);
+  const action = url.searchParams.get("action");
+  const deviceParam = url.searchParams.get("devicename");
+
+  if (action === "fetchHistorical") {
+    // Historical Query with Join and Sorting by Timestamp
+    const waterlevels = db.prepare("SELECT waterlevel, timestamp FROM waterlevels WHERE devicename = ? ORDER BY timestamp").all(deviceParam);
+    const measurements = db.prepare("SELECT measurementData, timestamp FROM measurements WHERE devicename = ? ORDER BY timestamp").all(deviceParam);
+    const pump_activations = db.prepare("SELECT timestamp FROM pump_activations WHERE devicename = ? ORDER BY timestamp").all(deviceParam);
+
+    const historicalData = {
+      waterlevels,
+      measurements,
+      pump_activations,
+    };
+
+    return NextResponse.json({ historicalData });
+  } else {
+    // Default behavior
+    const rows = db.prepare("SELECT * FROM devices").all();
+    return NextResponse.json({ devices: rows });
+  }
 }
 
 function pushPut(input) {

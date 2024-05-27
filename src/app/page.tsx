@@ -1,11 +1,12 @@
 "use client";
 
-import { Progress, Tooltip, Spinner, IconButton } from "@material-tailwind/react";
+import { Progress, Tooltip, Spinner, IconButton, Switch, select } from "@material-tailwind/react";
 import { useEffect, useState, useRef } from "react";
 import Image from "next/image";
 import Modal from "./(components)/Modal";
 import SelectorFader from "./(components)/Fader";
 import SelectorFader2 from "./(components)/Fader2";
+import FrappeChartComponent from "./(components)/FrappeChartComponent";
 
 // Define device type
 interface Device {
@@ -126,6 +127,29 @@ export default function Page() {
   const [te_inputLength, te_setInputLength] = useState<number>(0);
   const [isFaderEdited, setIsFaderEdited] = useState(false);
 
+  const handleSwitchChange = async () => {
+    setIsFaderEdited(true);
+    if (selectedDeviceData === null) return;
+    const updatedDeviceData = { ...selectedDeviceData, status: Number(!selectedDeviceData.status) };
+    setSelectedDeviceData(updatedDeviceData);
+
+    try {
+      const response = await fetch("/api/fetchdb", {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ devicename: selectedDeviceData?.devicename, status: updatedDeviceData.status }),
+      });
+
+      if (!response.ok) {
+        throw new Error("Network response was not ok");
+      }
+    } catch (error) {
+      console.error("API call failed", error);
+    }
+  };
+
   const te_handleEditName = () => {
     te_setIsEditing(!te_isEditing);
     if (selectedDeviceData) {
@@ -196,6 +220,7 @@ export default function Page() {
   };
 
   const fetchDb = async () => {
+    setLoaded(false);
     try {
       const res = await fetch("/api/fetchdb");
       if (!res.ok) {
@@ -207,6 +232,7 @@ export default function Page() {
     } catch (error) {
       console.error("Error fetching data:", error);
     }
+    setLoaded(true);
   };
 
   useEffect(() => {
@@ -240,7 +266,8 @@ export default function Page() {
               (device) => device.currentwl !== 0 && device.status === 1 && (device.battery === null || device.battery > 5)
             )}
 
-          {devices.some((device) => device.status === 0) && renderDeviceSection("Geräte: Offline", (device) => device.status === 0)}
+          {devices.some((device) => device.status === 0) &&
+            renderDeviceSection("Geräte: Offline", (device) => device.status === 0 && (device.battery === null || device.battery > 5))}
 
           {devices.length === 0 && (
             <div className="flex items-center justify-center w-full h-full pb-16">
@@ -265,6 +292,28 @@ export default function Page() {
           <div className="flex">
             <div className="flex-1 bg-ms-hbg h-[80vh] w-[260px] rounded-l-md pr-2">
               {/* Flex Box Left */}
+              <div className="relative w-full h-[7vh] min-h-[64px] pb-2 flex justify-center items-center">
+                <div className="absolute left-3 top-[49%] transform -translate-y-1/2">
+                  <Switch
+                    id="custom-switch-component"
+                    checked={Boolean(selectedDeviceData.status)}
+                    onChange={handleSwitchChange}
+                    ripple={false}
+                    className="h-full w-full checked:bg-ms-green"
+                    containerProps={{
+                      className: "w-11 h-6",
+                    }}
+                    circleProps={{
+                      className: "before:hidden left-0.5 border-none",
+                    }}
+                  />
+                </div>
+                <div className="absolute h-8 left-[75px] border-r"></div>
+                <div className="absolute h-8 right-[75px] border-r"></div>
+
+                <p className="text-center text-sm text-ms-accent-3">{selectedDeviceData.status ? "Gerät Aktiv" : "Standby"}</p>
+              </div>
+
               <div className="flex flex-col gap-2">
                 {/* Card 1 */}
                 <div className="bg-ms-bg px-4 py-3 border border-ms-accent rounded-md w-full">
@@ -272,7 +321,7 @@ export default function Page() {
                     <p className="text-sm">Bodenfeuchte</p>
                     <input
                       type="text"
-                      value={selectedDeviceData.currentsoilhumid + " %"}
+                      value={(selectedDeviceData.currentsoilhumid || "-") + " %"}
                       disabled={true}
                       className="w-16 border border-ms-accent rounded-md text-center outline-none text-sm"
                     />
@@ -324,7 +373,7 @@ export default function Page() {
                     <p className="text-sm">Batterieladung</p>
                     <input
                       type="text"
-                      value={selectedDeviceData.battery || "-" + " %"}
+                      value={(selectedDeviceData.battery || "-") + " %"}
                       disabled={true}
                       className="w-16 border border-ms-accent rounded-md text-center outline-none text-sm"
                     />
@@ -351,6 +400,7 @@ export default function Page() {
                     </svg>
                   </IconButton>
                 </div>
+
                 <i className="mdi mdi-view-dashboard text-2xl ml-3"></i>
 
                 {te_isEditing ? (
@@ -385,7 +435,10 @@ export default function Page() {
                   </div>
                 )}
               </div>
-              <div className="flex-1 bg-ms-bg rounded-md border border-ms-accent"></div>
+              {/* Viewer Window right side below */}
+              <div className="flex-1 bg-ms-bg rounded-md border border-ms-accent">
+                <FrappeChartComponent apiDeviceParam={selectedDeviceData.devicename} />
+              </div>
             </div>
           </div>
         </Modal>
