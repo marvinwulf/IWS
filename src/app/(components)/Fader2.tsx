@@ -105,36 +105,17 @@ const SelectorFader2: React.FC<SelectorFaderProps> = ({
   const displayValue = (val: number) => {
     if (val < 1000) {
       // Round to nearest 50 for milliliters
-      return Math.round(val / 50) * 50;
+      return Math.round(val / 50) * 50 + " mL";
     } else {
       // Round to 1 decimal place for liters
-      return Math.round(val / 100) / 10;
+      return Math.round(val / 100) / 10 + " L";
     }
-  };
-
-  // Input integer clamping and validation function
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const newValue = Number(e.target.value);
-    if (!isNaN(newValue) && newValue >= minValue && newValue <= maxValue) {
-      setValue(newValue);
-    }
-  };
-
-  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    if (e.key === "Enter") {
-      e.currentTarget.blur();
-    }
-  };
-
-  const handleBlur = (e: React.FocusEvent<HTMLInputElement>) => {
-    setValue(Number(e.target.value));
-    handleApiCall(Math.round(Number(e.target.value)));
   };
 
   // HTML
   return (
-    <div className="flex flex-col w-full gap-2">
-      <div ref={sliderRef} className={`relative w-full h-2.5 cursor-pointer`} onMouseDown={handleMouseDown} onClick={handleClick}>
+    <div className="relative w-full">
+      <div ref={sliderRef} className="relative w-full h-2.5 cursor-pointer" onMouseDown={handleMouseDown} onClick={handleClick}>
         <div
           className={`absolute top-0 left-0 h-full ${fgColor} rounded-l-full`}
           style={{
@@ -156,20 +137,9 @@ const SelectorFader2: React.FC<SelectorFaderProps> = ({
           />
         </div>
       </div>
-      <div className="flex justify-between gap-2 w-full items-center text-sm">
-        <p className="font-bold">{settingName}</p>
-        <div className="flex gap-2">
-          <input
-            type="text"
-            value={displayValue(value)}
-            min={minValue}
-            max={maxValue}
-            onChange={handleInputChange}
-            onKeyDown={handleKeyDown}
-            onBlur={handleBlur}
-            className="w-12 border border-ms-accent rounded-md text-center outline-none"
-          />
-        </div>
+      <div className="flex justify-between items-center relative top-2 w-full text-sm mb-2">
+        <p>{settingName}</p>
+        <input type="text" value={displayValue(value)} disabled={true} className="w-16 border border-ms-accent rounded-md text-center outline-none" />
       </div>
     </div>
   );

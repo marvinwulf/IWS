@@ -17,12 +17,53 @@ interface Device {
   currentsoilhumid: number;
   threshold?: number;
   watervolume?: number;
+  timestamp?: string;
 }
 
 interface DeviceCardProps {
   device: Device;
   onClick: () => void;
 }
+
+const timeDelta = (sqlDatetime: string): string => {
+  const pastDate = new Date(sqlDatetime);
+  const currentDate = new Date();
+  const currentGMTDate = new Date(currentDate.toUTCString().slice(0, -4));
+
+  let delta = Math.abs(currentGMTDate.getTime() - pastDate.getTime()) / 1000; // delta in seconds
+
+  const seconds = Math.floor(delta % 60);
+  delta = Math.floor(delta / 60); // delta in minutes
+
+  const minutes = Math.floor(delta % 60);
+  delta = Math.floor(delta / 60); // delta in hours
+
+  const hours = Math.floor(delta % 24);
+  const days = Math.floor(delta / 24); // delta in days
+
+  const formatTime = (value: number, singular: string, plural: string): string => {
+    return value === 1 ? singular : plural;
+  };
+
+  if (days > 0) {
+    return `${days} ${formatTime(days, "Tag", "Tage")} und ${hours} ${formatTime(hours, "Stunde", "Stunden")}`;
+  } else if (hours > 0) {
+    return `${hours} ${formatTime(hours, "Stunde", "Stunden")}`;
+  } else if (minutes > 0) {
+    return `${minutes} ${formatTime(minutes, "Minute", "Minuten")}`;
+  } else {
+    return `${seconds} ${formatTime(seconds, "Sekunde", "Sekunden")}`;
+  }
+};
+
+const getWlIndicatorColors = (currentwl: number, indicatorBar: 0 | 1 | 2): string => {
+  const colors: { [key in 0 | 1 | 2]: string[] } = {
+    0: ["bg-ms-red", "bg-ms-orange", "bg-ms-green"],
+    1: ["bg-ms-accent", "bg-ms-orange", "bg-ms-green"],
+    2: ["bg-ms-accent", "bg-ms-accent", "bg-ms-green"],
+  };
+  return colors[indicatorBar][currentwl];
+};
 
 const DeviceCard = ({ device, onClick }: DeviceCardProps) => {
   const getBatteryIconClass = (batteryPercentage: number | null): string => {
@@ -36,15 +77,6 @@ const DeviceCard = ({ device, onClick }: DeviceCardProps) => {
     } else {
       return `mdi mdi-battery-${roundedPercentage}`;
     }
-  };
-
-  const getWlIndicatorColors = (currentwl: number, indicatorBar: 0 | 1 | 2): string => {
-    const colors: { [key in 0 | 1 | 2]: string[] } = {
-      0: ["bg-ms-red", "bg-ms-orange", "bg-ms-green"],
-      1: ["bg-ms-accent", "bg-ms-orange", "bg-ms-green"],
-      2: ["bg-ms-accent", "bg-ms-accent", "bg-ms-green"],
-    };
-    return colors[indicatorBar][currentwl];
   };
 
   return (
@@ -232,13 +264,23 @@ export default function Page() {
         <Modal isVisible={openDeviceMenu} onClose={closeDeviceMenuHandler} key={key}>
           <div className="flex">
             <div className="flex-1 bg-ms-hbg h-[80vh] w-[260px] rounded-l-md pr-2">
+              {/* Flex Box Left */}
               <div className="flex flex-col gap-2">
-                <div className="flex flex-col gap-1 bg-ms-bg p-4 border border-ms-accent rounded-md">
-                  <p className="text-sm">Bodenfeuchte %</p>
-                  <div className="relative w-full">
-                    <Progress value={selectedDeviceData.currentsoilhumid} color="teal" size="md" className="bg-ms-accent mb-5" />
+                {/* Card 1 */}
+                <div className="bg-ms-bg px-4 py-3 border border-ms-accent rounded-md w-full">
+                  <div className="flex justify-between items-center mb-2">
+                    <p className="text-sm">Bodenfeuchte</p>
+                    <input
+                      type="text"
+                      value={selectedDeviceData.currentsoilhumid + " %"}
+                      disabled={true}
+                      className="w-16 border border-ms-accent rounded-md text-center outline-none text-sm"
+                    />
+                  </div>
+                  <Progress value={selectedDeviceData.currentsoilhumid} color="teal" size="md" className="bg-ms-accent" />
+                  <div className="relative h-4">
                     <div
-                      className={`absolute top-[22px] left-0 h-3 w-0.5 rounded-full bg-ms-accent-2 transform -translate-x-1/2 -translate-y-1/2`}
+                      className="absolute top-[50%] left-0 h-2 w-0.5 rounded-full bg-ms-accent-2 transform -translate-x-1/2 -translate-y-1/2"
                       style={{
                         left: `${Math.min(Math.max(2.5, selectedDeviceData.currentsoilhumid - 1), 97.5)}%`,
                       }}
@@ -256,7 +298,14 @@ export default function Page() {
                     onFaderEdited={handleFaderEdited}
                   />
                 </div>
-                <div className="flex flex-col gap-4 bg-ms-bg p-4 border border-ms-accent rounded-md">
+                {/* Card 2 */}
+                <div className="bg-ms-bg px-4 py-3 border border-ms-accent rounded-md w-full">
+                  <p className="text-sm mb-2">Wasserstand</p>
+                  <div className="flex bg-ms-bg gap-0.5 mb-4">
+                    <div className={`h-2.5 w-[33%] rounded-l-md ${getWlIndicatorColors(selectedDeviceData.currentwl, 0)}`}></div>
+                    <div className={`h-2.5 w-[33%]  ${getWlIndicatorColors(selectedDeviceData.currentwl, 1)}`}></div>
+                    <div className={`h-2.5 w-[33%] rounded-r-md ${getWlIndicatorColors(selectedDeviceData.currentwl, 2)}`}></div>
+                  </div>
                   <SelectorFader2
                     minValue={0}
                     maxValue={10000}
@@ -269,6 +318,28 @@ export default function Page() {
                     onFaderEdited={handleFaderEdited}
                   />
                 </div>
+                {/* Card 3 */}
+                <div className="bg-ms-bg px-4 py-3 border border-ms-accent rounded-md w-full">
+                  <div className="flex justify-between items-center mb-2">
+                    <p className="text-sm">Batterieladung</p>
+                    <input
+                      type="text"
+                      value={selectedDeviceData.battery || "-" + " %"}
+                      disabled={true}
+                      className="w-16 border border-ms-accent rounded-md text-center outline-none text-sm"
+                    />
+                  </div>
+                  <Progress value={selectedDeviceData.battery || 0} color="orange" size="md" className="bg-ms-accent" />
+                </div>
+                {/* Card 4 */}
+                {selectedDeviceData.timestamp != null ? (
+                  <p className="text-sm text-ms-accent-2 text-center mt-2">
+                    Zuletzt verbunden <br />
+                    vor {timeDelta(selectedDeviceData.timestamp)} <br />({selectedDeviceData.timestamp} GMT)
+                  </p>
+                ) : (
+                  <p className="text-sm text-ms-accent-2 text-center mt-2">Gerät noch nie verbunden</p>
+                )}
               </div>
             </div>
             <div className="flex flex-col">
