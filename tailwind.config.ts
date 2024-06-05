@@ -12,7 +12,7 @@ const config: Config = withMT({
       },
     },
     colors: {
-      "ms-fg": "#263238", // Vordergrund Farbe
+      "ms-fg": "#1c2c3C", // Vordergrund Farbe
       "ms-hbg": "#fff", // Hervorgehobener Background
       "ms-bg": "#f9fafb", // Background Farbe
       "ms-accent": "#eaeaea", // 1 Akzent LIGHT: Border Accent 2 Go
@@ -27,4 +27,5 @@ const config: Config = withMT({
   },
   plugins: [],
 });
+
 export default config;

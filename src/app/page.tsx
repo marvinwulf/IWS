@@ -139,7 +139,7 @@ export default function Page() {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ devicename: selectedDeviceData?.devicename, status: updatedDeviceData.status }),
+        body: JSON.stringify({ devicename: selectedDeviceData.devicename, status: updatedDeviceData.status }),
       });
 
       if (!response.ok) {
@@ -296,6 +296,7 @@ export default function Page() {
                 <div className="absolute left-3 top-[49%] transform -translate-y-1/2">
                   <Switch
                     id="custom-switch-component"
+                    crossOrigin={null}
                     checked={Boolean(selectedDeviceData.status)}
                     onChange={handleSwitchChange}
                     ripple={false}

@@ -6,10 +6,6 @@
   display: none;
 }
 
-.font-ms {
-  font-family: var(--font-montserrat);
-}
-
 @media (max-width: 800px) {
   .solutions-text {
     display: none;
@@ -20,7 +16,7 @@
 }
 
 :root {
-  --ms-fg: #263238;
+  --ms-fg: #1c2c3c;
   --ms-hbg: #fff;
   --ms-bg: #f9fafb;
   --ms-accent: #eaeaea;

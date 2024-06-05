@@ -1,7 +1,7 @@
 "use client";
 
 import "./globals.css";
-import { Montserrat } from "next/font/google";
+import { Roboto, Montserrat } from "next/font/google";
 
 import React from "react";
 import Image from "next/image";
@@ -12,9 +12,9 @@ import LoadCPU from "./(components)/LoadCPU";
 import LoadMemory from "./(components)/LoadMemory";
 import LoadDisk from "./(components)/LoadDisk";
 
-const Montserrat_init = Montserrat({
+const roboto = Montserrat({
   subsets: ["latin"],
-  weight: ["400", "500", "600"],
+  weight: ["100", "300", "400", "500", "700", "900"],
   variable: "--font-montserrat",
 });
 
@@ -23,7 +23,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   const toggleDrawer = () => setOpend((cur) => !cur);
 
   return (
-    <html lang="en">
+    <html lang="en" className={roboto.variable}>
       <head>
         <title>MS Solutions IWS</title>
         <meta name="description" content="The MS Dashboard to easily manage IWS devices centrally on a network." />
@@ -61,9 +61,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
 
           <footer>
             <div className="flex items-center w-full ml-4 gap-4">
-              {/* <LoadCPU />
+              <LoadCPU />
               <LoadMemory />
-              <LoadDisk /> */}
+              <LoadDisk />
             </div>
           </footer>
 
