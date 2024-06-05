@@ -15,14 +15,15 @@ const config: Config = withMT({
       "ms-fg": "#1c2c3C", // Vordergrund Farbe
       "ms-hbg": "#fff", // Hervorgehobener Background
       "ms-bg": "#f9fafb", // Background Farbe
-      "ms-accent": "#eaeaea", // 1 Akzent LIGHT: Border Accent 2 Go
-      "ms-accent-1": "#c2c2c2", // Border Accent, um Text accent-2 von Wahrnehmung zu matchen
-      "ms-accent-2": "#a8a8a8", // 2 Akzent MEDIUM: Alternativen Accent to use
-      "ms-accent-3": "#616161", // 3 Akzent DARK: Subtitle Text Farbe
-      "ms-colored": "#009788", // Farbakzent Farbe
-      "ms-red": "#d80032",
-      "ms-orange": "#ff6100",
-      "ms-green": "#009446",
+      "ms-grayscale": "#eaeaea", // 1 Akzent LIGHT: Border Accent 2 Go
+      "ms-grayscale-1": "#c2c2c2", // Border Accent, um Text accent-2 von Wahrnehmung zu matchen
+      "ms-grayscale-2": "#a8a8a8", // 2 Akzent MEDIUM: Alternativen Accent to use
+      "ms-grayscale-3": "#616161", // 3 Akzent DARK: Subtitle Text Farbe
+      "ms-primary": "#49714d", // Farbakzent Farbe
+      "ms-red": "#bf0e3a",
+      "ms-orange": "#ff8300",
+      "ms-secondary": "#7b9f80",
+      "ms-accent": "#079544",
     },
   },
   plugins: [],

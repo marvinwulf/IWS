@@ -96,12 +96,15 @@ export default function LoadDisk() {
           <div className="flex items-center">
             <p className="text-sm text-right -mr-0.5">{diskLoad}%</p>
             <div className="mdi mdi-harddisk px-2"></div>
-            <div className="w-48">
-              <Progress value={diskLoad === "- " ? 0 : parseFloat(diskLoad)} color="teal" size="sm" className="bg-ms-accent" />
+            <div className="flex-start flex h-1.5 w-48 overflow-hidden rounded-full bg-ms-grayscale font-sans text-xs font-medium">
+              <div
+                className="flex h-full items-center justify-center overflow-hidden break-all rounded-full bg-ms-accent text-white"
+                style={{ width: `${diskLoad || 0}%` }}
+              ></div>
             </div>
           </div>
         </MenuHandler>
-        <MenuList className="hidden sm:flex overflow-visible border-ms-accent p-3 -mt-3">
+        <MenuList className="hidden sm:flex overflow-visible border-ms-grayscale p-3 -mt-3">
           <div className="flex flex-col outline-none text-ms-fg px-2 gap-3">
             <div className="flex items-center gap-2 -mb-1.5">
               <Typography variant="h3" className="text-ms-fg">
@@ -114,7 +117,9 @@ export default function LoadDisk() {
                     <div
                       key={index}
                       onClick={() => setMainDrive(index)}
-                      className={`aspect-square h-[10px] cursor-pointer hover:opacity-85 ${mainDrive === index ? "bg-ms-colored" : "bg-ms-accent-3"}`}
+                      className={`aspect-square h-[10px] cursor-pointer hover:opacity-85 ${
+                        mainDrive === index ? "bg-ms-accent" : "bg-ms-grayscale-3"
+                      }`}
                       title={`Mount ${diskInfo[index].mount}`}
                     />
                   ))}
@@ -122,7 +127,7 @@ export default function LoadDisk() {
               )}
             </div>
 
-            <div className="flex items-center gap-6 py-3 border-y border-ms-accent">
+            <div className="flex items-center gap-6 py-3 border-y border-ms-grayscale">
               <div className="w-[60px] h-auto relative">
                 <CircularProgressbar
                   strokeWidth={12}
@@ -130,7 +135,7 @@ export default function LoadDisk() {
                   styles={buildStyles({
                     strokeLinecap: "butt",
                     pathColor: gradientColor(diskInfo[mainDrive].use),
-                    trailColor: "var(--ms-accent)",
+                    trailColor: "var(--ms-grayscale)",
                   })}
                 />
                 <p
@@ -142,7 +147,7 @@ export default function LoadDisk() {
               </div>
 
               <div className="flex flex-col justify-center min-w-[150px]">
-                <div className="flex justify-start mb-0.5 gap-1 text-ms-accent-3">
+                <div className="flex justify-start mb-0.5 gap-1 text-ms-grayscale-3">
                   <p>
                     Mount <span className="font-bold">{diskInfo[mainDrive].mount}</span> ({convertSize(diskInfo[mainDrive].size)})
                   </p>
@@ -159,7 +164,7 @@ export default function LoadDisk() {
 
                 <div className="flex justify-between mb-0.5">
                   <div className="flex items-center gap-2">
-                    <div className="aspect-square h-[10px] bg-ms-accent border border-ms-accent-2"></div>
+                    <div className="aspect-square h-[10px] bg-ms-grayscale border border-ms-grayscale-2"></div>
                     <p>Verfügbar:</p>
                   </div>
                   <p className="ml-3" title={ksep(diskInfo[mainDrive].available) + " Bytes"}>
@@ -176,7 +181,7 @@ export default function LoadDisk() {
                   styles={buildStyles({
                     strokeLinecap: "butt",
                     pathColor: gradientColor(diskLoad),
-                    trailColor: "var(--ms-accent)",
+                    trailColor: "var(--ms-grayscale)",
                   })}
                 />
                 <p
@@ -188,7 +193,7 @@ export default function LoadDisk() {
               </div>
 
               <div className="flex flex-col justify-center min-w-[150px]">
-                <div className="flex justify-start mb-0.5 gap-1 text-ms-accent-3">Gesamt ({convertSize(totalDiskInfo.size)})</div>
+                <div className="flex justify-start mb-0.5 gap-1 text-ms-grayscale-3">Gesamt ({convertSize(totalDiskInfo.size)})</div>
                 <div className="flex justify-between mb-0.5">
                   <div className="flex items-center gap-2">
                     <div className="aspect-square h-[10px]" style={{ backgroundColor: gradientColor(diskLoad) }}></div>
@@ -201,7 +206,7 @@ export default function LoadDisk() {
 
                 <div className="flex justify-between mb-0.5">
                   <div className="flex items-center gap-2">
-                    <div className="aspect-square h-[10px] bg-ms-accent border border-ms-accent-2"></div>
+                    <div className="aspect-square h-[10px] bg-ms-grayscale border border-ms-grayscale-2"></div>
                     <p>Verfügbar:</p>
                   </div>
                   <p className="ml-3" title={ksep(totalDiskInfo.available) + " Bytes"}>

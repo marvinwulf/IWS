@@ -26,8 +26,8 @@ export default function ContactDrawer({ opend, setOpend }: Props) {
           </Typography>
         </div>
 
-        <div className="p-4 border-y border-y-ms-accent">
-          <Typography variant="small" className="font-light text-ms-accent-3">
+        <div className="p-4 border-y border-y-ms-grayscale">
+          <Typography variant="small" className="font-light text-ms-grayscale-3">
             Ihr Anliegen ist uns wichtig. <br />
             Bitte geben Sie Ihre Kontaktdaten ein und beschreiben Sie Ihr Anliegen. <br />
             Wir werden uns umgehend mit Ihnen in Verbindung setzen.
@@ -39,14 +39,14 @@ export default function ContactDrawer({ opend, setOpend }: Props) {
             <Typography variant="h6" className="text-ms-fg">
               Ihre Kontaktdaten
             </Typography>
-            <Typography className="text-ms-accent-3 text-xs">Mit * markierte Felder sind Pflichtfelder</Typography>
+            <Typography className="text-ms-grayscale-3 text-xs">Mit * markierte Felder sind Pflichtfelder</Typography>
           </div>
 
           <div className="flex flex-col gap-3">
             <Input
               type="name"
               placeholder="Ihr Name *"
-              className="!border !border-ms-accent-1 bg-ms-hbg text-ms-fg shadow-lg shadow-ms-accent-4/5 placeholder:text-ms-accent-2 placeholder:opacity-100 focus:!border-ms-fg"
+              className="!border !border-ms-grayscale-1 bg-ms-hbg text-ms-fg shadow-lg shadow-ms-grayscale-4/5 placeholder:text-ms-grayscale-2 placeholder:opacity-100 focus:!border-ms-fg"
               labelProps={{
                 className: "hidden",
               }}
@@ -55,7 +55,7 @@ export default function ContactDrawer({ opend, setOpend }: Props) {
             <Input
               type="email"
               placeholder="Ihre Email Addresse *"
-              className="!border !border-ms-accent-1 bg-ms-hbg text-ms-fg shadow-lg shadow-ms-accent-4/5 placeholder:text-ms-accent-2 placeholder:opacity-100 focus:!border-ms-fg"
+              className="!border !border-ms-grayscale-1 bg-ms-hbg text-ms-fg shadow-lg shadow-ms-grayscale-4/5 placeholder:text-ms-grayscale-2 placeholder:opacity-100 focus:!border-ms-fg"
               maxLength={50}
               labelProps={{
                 className: "hidden",
@@ -67,7 +67,7 @@ export default function ContactDrawer({ opend, setOpend }: Props) {
             <Input
               type="subject"
               placeholder="Betreff *"
-              className="!border !border-ms-accent-1 bg-ms-hbg text-ms-fg shadow-lg shadow-ms-accent-4/5 placeholder:text-ms-accent-2 placeholder:opacity-100 focus:!border-ms-fg"
+              className="!border !border-ms-grayscale-1 bg-ms-hbg text-ms-fg shadow-lg shadow-ms-grayscale-4/5 placeholder:text-ms-grayscale-2 placeholder:opacity-100 focus:!border-ms-fg"
               labelProps={{
                 className: "hidden",
               }}
@@ -76,7 +76,7 @@ export default function ContactDrawer({ opend, setOpend }: Props) {
             <Textarea
               placeholder="Nachricht *"
               rows={6}
-              className="!border !border-ms-accent-1 bg-ms-hbg text-ms-fg shadow-lg shadow-ms-accent-4/5 placeholder:text-ms-accent-2 placeholder:opacity-100 focus:!border-ms-fg"
+              className="!border !border-ms-grayscale-1 bg-ms-hbg text-ms-fg shadow-lg shadow-ms-grayscale-4/5 placeholder:text-ms-grayscale-2 placeholder:opacity-100 focus:!border-ms-fg"
               labelProps={{
                 className: "hidden",
               }}

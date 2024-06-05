@@ -27,7 +27,7 @@ export default function CenterMenu() {
         </div>
       </MenuHandler>
 
-      <MenuList className="hidden w-[36rem] grid-cols-7 gap-3 overflow-visible lg:grid border-ms-accent">
+      <MenuList className="hidden w-[36rem] grid-cols-7 gap-3 overflow-visible lg:grid border-ms-grayscale">
         <Card
           shadow={false}
           className="col-span-3 flex h-full w-full items-center justify-center rounded-md p-4 bg-ms-fg sa-sm hover-dark outline-none select-none"

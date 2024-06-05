@@ -9,11 +9,11 @@ import tailwindConfig from "../../../tailwind.config";
 
 ChartJS.register(CategoryScale, LinearScale, TimeScale, LineElement, PointElement, Legend, Tooltip, Title, Annotation);
 
-interface FrappeChartComponentProps {
+interface ChartComponentProps {
   apiDeviceParam: string;
 }
 
-const FrappeChartComponent: React.FC<FrappeChartComponentProps> = ({ apiDeviceParam }) => {
+const ChartComponent: React.FC<ChartComponentProps> = ({ apiDeviceParam }) => {
   const chartRef = useRef<HTMLCanvasElement>(null);
   const [device1, setDevice1] = useState<any>();
   const [waterlevelData, setWaterlevelData] = useState<number[]>([]);
@@ -87,7 +87,7 @@ const FrappeChartComponent: React.FC<FrappeChartComponentProps> = ({ apiDevicePa
       {
         label: "Bodenfeuchte",
         data: measurementData,
-        borderColor: tailwindConfig.theme.colors["ms-orange"],
+        borderColor: tailwindConfig.theme.colors["ms-primary"],
         backgroundColor: tailwindConfig.theme.colors["ms-hbg"],
         pointRadius: 4,
         pointHitRadius: 10,
@@ -102,7 +102,7 @@ const FrappeChartComponent: React.FC<FrappeChartComponentProps> = ({ apiDevicePa
       {
         label: "Wasserstand",
         data: waterlevelData,
-        borderColor: tailwindConfig.theme.colors["ms-colored"],
+        borderColor: tailwindConfig.theme.colors["ms-secondary"],
         backgroundColor: tailwindConfig.theme.colors["ms-hbg"],
         pointRadius: 4,
         pointHitRadius: 10,
@@ -221,4 +221,4 @@ const FrappeChartComponent: React.FC<FrappeChartComponentProps> = ({ apiDevicePa
   );
 };
 
-export default FrappeChartComponent;
+export default ChartComponent;

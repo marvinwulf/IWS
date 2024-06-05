@@ -105,12 +105,15 @@ export default function LoadCPU() {
           <div className="flex items-center">
             <div className="w-10 text-sm text-right -mr-0.5">{cpuLoad}%</div>
             <div className="mdi mdi-memory px-2"></div>
-            <div className="w-48">
-              <Progress value={cpuLoad === "N/A" ? 0 : parseFloat(cpuLoad)} color="teal" size="sm" className="bg-ms-accent" />
+            <div className="flex-start flex h-1.5 w-48 overflow-hidden rounded-full bg-ms-grayscale font-sans text-xs font-medium">
+              <div
+                className="flex h-full items-center justify-center overflow-hidden break-all rounded-full bg-ms-accent text-white"
+                style={{ width: `${cpuLoad || 0}%` }}
+              ></div>
             </div>
           </div>
         </MenuHandler>
-        <MenuList className="hidden sm:flex overflow-visible border-ms-accent p-3 ml-4 -mt-3">
+        <MenuList className="hidden sm:flex overflow-visible border-ms-grayscale p-3 ml-4 -mt-3">
           <div className="flex h-full outline-none">
             <div className="flex-1 text-ms-fg pr-6 pl-2">
               <div className="flex items-center justify-between">
@@ -126,12 +129,12 @@ export default function LoadCPU() {
                     <i className="mdi mdi-poll "></i>
                   </div>
                 </div>
-                <Typography variant="h4" className="text-ms-accent-3 font-light mb-[1px]  text-end w-[100px]">
+                <Typography variant="h4" className="text-ms-grayscale-3 font-light mb-[1px]  text-end w-[100px]">
                   {systemInfo.speed} GHz
                 </Typography>
               </div>
 
-              <div className=" text-ms-fg -mt-0.5 pb-3 mb-3 border-b border-b-ms-accent">{systemInfo.brand}</div>
+              <div className=" text-ms-fg -mt-0.5 pb-3 mb-3 border-b border-b-ms-grayscale">{systemInfo.brand}</div>
 
               <div className="flex justify-between mb-0.5">
                 <p>Sockets:</p>
@@ -177,7 +180,7 @@ export default function LoadCPU() {
                     title={`CPU ${index}: ${load}%`}
                     style={{ backgroundColor: gradientColor(load) }}
                   >
-                    <div className={`${coreLoadHover ? "text-ms-accent-1" : "text-ms-hbg"} text-end px-1.5 py-0.5 text-sm tr`}>{index}</div>
+                    <div className={`${coreLoadHover ? "text-ms-grayscale-1" : "text-ms-hbg"} text-end px-1.5 py-0.5 text-sm tr`}>{index}</div>
                     <p className={`${coreLoadHover ? "opacity-100" : "opacity-0"} text-end px-1.5 py-0.5 text-sm text-ms-hbg cursor-default tr`}>
                       {load} %
                     </p>

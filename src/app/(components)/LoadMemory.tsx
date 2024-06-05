@@ -65,12 +65,15 @@ export default function LoadMemory() {
           <div className="flex items-center">
             <div className="text-sm text-right -mr-0.5">{memLoad}%</div>
             <div className="mdi mdi-chip px-2"></div>
-            <div className="w-48">
-              <Progress value={memLoad === "N/A" ? 0 : parseFloat(memLoad)} color="teal" size="sm" className="bg-ms-accent" />
+            <div className="flex-start flex h-1.5 w-48 overflow-hidden rounded-full bg-ms-grayscale font-sans text-xs font-medium">
+              <div
+                className="flex h-full items-center justify-center overflow-hidden break-all rounded-full bg-ms-accent text-white"
+                style={{ width: `${memLoad || 0}%` }}
+              ></div>
             </div>
           </div>
         </MenuHandler>
-        <MenuList className="hidden sm:flex overflow-visible border-ms-accent p-3 -mt-3">
+        <MenuList className="hidden sm:flex overflow-visible border-ms-grayscale p-3 -mt-3">
           <div className="flex flex-col outline-none text-ms-fg px-2">
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-2">
@@ -85,7 +88,7 @@ export default function LoadMemory() {
                         key={index}
                         onClick={() => setSelectedSlotIndex(index)}
                         className={`aspect-square h-[10px] cursor-pointer hover:opacity-85 ${
-                          selectedSlotIndex === index ? "bg-ms-colored" : "bg-ms-accent-3"
+                          selectedSlotIndex === index ? "bg-ms-accent" : "bg-ms-grayscale-3"
                         }`}
                         title={`Slot: ${index}`}
                       />
@@ -94,14 +97,14 @@ export default function LoadMemory() {
                 )}
               </div>
 
-              <Typography variant="h4" className="text-ms-accent-3 font-light text-end w-[110px]">
+              <Typography variant="h4" className="text-ms-grayscale-3 font-light text-end w-[110px]">
                 {slots} {slots > 1 ? "Slots" : "Slot"}
               </Typography>
             </div>
 
-            <div className="flex items-end justify-center border-y border-ms-accent mb-2 py-2 mt-1.5">
+            <div className="flex items-end justify-center border-y border-ms-grayscale mb-2 py-2 mt-1.5">
               <div>
-                <p className="text-ms-accent-3 -mb-1">Belegt</p>
+                <p className="text-ms-grayscale-3 -mb-1">Belegt</p>
                 <Typography
                   variant="h5"
                   className="flex text-ms-fg font-light"
@@ -114,7 +117,7 @@ export default function LoadMemory() {
                 /
               </Typography>
               <div>
-                <p className="text-ms-accent-3 -my-1">Gesamt</p>
+                <p className="text-ms-grayscale-3 -my-1">Gesamt</p>
                 <Typography variant="h5" className="flex text-ms-fg font-light">
                   {convertSize(memInfo.swaptotal)}
                 </Typography>

@@ -6,7 +6,7 @@ import Image from "next/image";
 import Modal from "./(components)/Modal";
 import SelectorFader from "./(components)/Fader";
 import SelectorFader2 from "./(components)/Fader2";
-import FrappeChartComponent from "./(components)/FrappeChartComponent";
+import ChartComponent from "./(components)/ChartComponent";
 
 // Define device type
 interface Device {
@@ -59,9 +59,9 @@ const timeDelta = (sqlDatetime: string): string => {
 
 const getWlIndicatorColors = (currentwl: number, indicatorBar: 0 | 1 | 2): string => {
   const colors: { [key in 0 | 1 | 2]: string[] } = {
-    0: ["bg-ms-red", "bg-ms-orange", "bg-ms-green"],
-    1: ["bg-ms-accent", "bg-ms-orange", "bg-ms-green"],
-    2: ["bg-ms-accent", "bg-ms-accent", "bg-ms-green"],
+    0: ["bg-ms-red", "bg-ms-secondary", "bg-ms-primary"],
+    1: ["bg-ms-grayscale", "bg-ms-secondary", "bg-ms-primary"],
+    2: ["bg-ms-grayscale", "bg-ms-grayscale", "bg-ms-primary"],
   };
   return colors[indicatorBar][currentwl];
 };
@@ -85,9 +85,9 @@ const DeviceCard = ({ device, onClick }: DeviceCardProps) => {
       className="flex flex-col w-52 border rounded-md overflow-hidden cursor-pointer shadow-lg shadow-gray-200 hover:shadow-gray-300 hover:scale-105 tr"
       onClick={onClick}
     >
-      <div className="bg-ms-hbg border-b border-ms-accent">
+      <div className="bg-ms-hbg border-b border-ms-grayscale">
         <div className="flex items-center px-4 py-3 gap-3 -mb-0.5">
-          <div className={`aspect-square h-[8px] rounded-lg ${device.status === 1 ? "bg-ms-green" : "bg-ms-red"}`}></div>
+          <div className={`aspect-square h-[8px] rounded-lg ${device.status === 1 ? "bg-ms-primary" : "bg-ms-red"}`}></div>
           <p className="text-ms-fg font-light text-lg whitespace-nowrap overflow-x-clip overflow-ellipsis w-40" title={device.devicefriendlyname}>
             {device.devicefriendlyname}
           </p>
@@ -105,9 +105,9 @@ const DeviceCard = ({ device, onClick }: DeviceCardProps) => {
             mount: { scale: 1, y: 0 },
             unmount: { scale: 0, y: 25 },
           }}
-          className="bg-ms-hbg text-ms-fg border border-ms-accents mt-1"
+          className="bg-ms-hbg text-ms-fg border border-ms-grayscale mt-1"
         >
-          <div className="flex justify-center items-center aspect-square w-[30.45px] mr-2 rounded-2xl hover:bg-ms-accent tr">
+          <div className="flex justify-center items-center aspect-square w-[30.45px] mr-2 rounded-2xl hover:bg-ms-grayscale tr">
             <i className={`text-center text-lg text-ms-fg ${getBatteryIconClass(device.battery)}`}></i>
           </div>
         </Tooltip>
@@ -241,8 +241,8 @@ export default function Page() {
 
   const renderDeviceSection = (title: string, filterCondition: (device: Device) => boolean) => (
     <>
-      <span className="relative top-[26px] left-[45px] bg-ms-bg px-2 text-ms-accent-2 text-sm">{title}</span>
-      <div className="flex px-4 mx-6 pt-8 mt-4 gap-6 flex-wrap border-t border-ms-accent-1">
+      <span className="relative top-[26px] left-[45px] bg-ms-bg px-2 text-ms-grayscale-2 text-sm">{title}</span>
+      <div className="flex px-4 mx-6 pt-8 mt-4 gap-6 flex-wrap border-t border-ms-grayscale-1">
         {devices.filter(filterCondition).map((device, index) => (
           <DeviceCard key={index} device={device} onClick={() => openDeviceMenuHandler(device.devicename)} />
         ))}
@@ -273,7 +273,7 @@ export default function Page() {
             <div className="flex items-center justify-center w-full h-full pb-16">
               <div className="flex flex-col items-center justify-end w-[200px] h-[160px] overflow-hidden">
                 <Image className="-mb-8" alt="No Content Cat Mascot" src="/cat-mascot-void.svg" width={200} height={200} />
-                <p className="text-ms-accent-3 text-center text-lg">Noch keine IWS Geräte</p>
+                <p className="text-ms-grayscale-3 text-center text-lg">Noch keine IWS Geräte</p>
               </div>
             </div>
           )}
@@ -300,7 +300,7 @@ export default function Page() {
                     checked={Boolean(selectedDeviceData.status)}
                     onChange={handleSwitchChange}
                     ripple={false}
-                    className="h-full w-full checked:bg-ms-green"
+                    className="h-full w-full checked:bg-ms-primary"
                     containerProps={{
                       className: "w-11 h-6",
                     }}
@@ -312,25 +312,30 @@ export default function Page() {
                 <div className="absolute h-8 left-[75px] border-r"></div>
                 <div className="absolute h-8 right-[75px] border-r"></div>
 
-                <p className="text-center text-sm text-ms-accent-3">{selectedDeviceData.status ? "Gerät Aktiv" : "Standby"}</p>
+                <p className="text-center text-sm text-ms-grayscale-3">{selectedDeviceData.status ? "Gerät Aktiv" : "Standby"}</p>
               </div>
 
               <div className="flex flex-col gap-2">
                 {/* Card 1 */}
-                <div className="bg-ms-bg px-4 py-3 border border-ms-accent rounded-md w-full">
+                <div className="bg-ms-bg px-4 py-3 border border-ms-grayscale rounded-md w-full">
                   <div className="flex justify-between items-center mb-2">
                     <p className="text-sm">Bodenfeuchte</p>
                     <input
                       type="text"
                       value={(selectedDeviceData.currentsoilhumid || "-") + " %"}
                       disabled={true}
-                      className="w-16 border border-ms-accent rounded-md text-center outline-none text-sm"
+                      className="w-16 border border-ms-grayscale rounded-md text-center outline-none text-sm"
                     />
                   </div>
-                  <Progress value={selectedDeviceData.currentsoilhumid} color="teal" size="md" className="bg-ms-accent" />
+                  <div className="flex-start flex h-2.5 w-full overflow-hidden rounded-full bg-ms-grayscale font-sans text-xs font-medium">
+                    <div
+                      className="flex h-full items-center justify-center overflow-hidden break-all rounded-full bg-ms-secondary text-white"
+                      style={{ width: `${selectedDeviceData.currentsoilhumid}%` }}
+                    ></div>
+                  </div>
                   <div className="relative h-4">
                     <div
-                      className="absolute top-[50%] left-0 h-2 w-0.5 rounded-full bg-ms-accent-2 transform -translate-x-1/2 -translate-y-1/2"
+                      className="absolute top-[50%] left-0 h-2 w-0.5 rounded-full bg-ms-grayscale-2 transform -translate-x-1/2 -translate-y-1/2"
                       style={{
                         left: `${Math.min(Math.max(2.5, selectedDeviceData.currentsoilhumid - 1), 97.5)}%`,
                       }}
@@ -343,13 +348,13 @@ export default function Page() {
                     settingName="Schwellenwert"
                     fgColor="bg-ms-red"
                     dotColor="bg-ms-fg"
-                    bgColor="bg-ms-colored"
+                    bgColor="bg-ms-primary"
                     apiDeviceParam={selectedDeviceData.devicename}
                     onFaderEdited={handleFaderEdited}
                   />
                 </div>
                 {/* Card 2 */}
-                <div className="bg-ms-bg px-4 py-3 border border-ms-accent rounded-md w-full">
+                <div className="bg-ms-bg px-4 py-3 border border-ms-grayscale rounded-md w-full">
                   <p className="text-sm mb-2">Wasserstand</p>
                   <div className="flex bg-ms-bg gap-0.5 mb-4">
                     <div className={`h-2.5 w-[33%] rounded-l-md ${getWlIndicatorColors(selectedDeviceData.currentwl, 0)}`}></div>
@@ -361,39 +366,44 @@ export default function Page() {
                     maxValue={10000}
                     initialValue={selectedDeviceData.watervolume || 0}
                     settingName="Pumpvolumen"
-                    fgColor="bg-ms-fg"
+                    fgColor="bg-ms-primary"
                     dotColor="bg-ms-fg"
-                    bgColor="bg-ms-accent"
+                    bgColor="bg-ms-grayscale"
                     apiDeviceParam={selectedDeviceData.devicename}
                     onFaderEdited={handleFaderEdited}
                   />
                 </div>
                 {/* Card 3 */}
-                <div className="bg-ms-bg px-4 py-3 border border-ms-accent rounded-md w-full">
+                <div className="bg-ms-bg px-4 py-3 border border-ms-grayscale rounded-md w-full">
                   <div className="flex justify-between items-center mb-2">
                     <p className="text-sm">Batterieladung</p>
                     <input
                       type="text"
                       value={(selectedDeviceData.battery || "-") + " %"}
                       disabled={true}
-                      className="w-16 border border-ms-accent rounded-md text-center outline-none text-sm"
+                      className="w-16 border border-ms-grayscale rounded-md text-center outline-none text-sm"
                     />
                   </div>
-                  <Progress value={selectedDeviceData.battery || 0} color="orange" size="md" className="bg-ms-accent" />
+                  <div className="flex-start flex h-2.5 w-full overflow-hidden rounded-full bg-ms-grayscale font-sans text-xs font-medium">
+                    <div
+                      className="flex h-full items-center justify-center overflow-hidden break-all rounded-full bg-ms-secondary text-white"
+                      style={{ width: `${selectedDeviceData.battery || 0}%` }}
+                    ></div>
+                  </div>
                 </div>
                 {/* Card 4 */}
                 {selectedDeviceData.timestamp != null ? (
-                  <p className="text-sm text-ms-accent-2 text-center mt-2">
+                  <p className="text-sm text-ms-grayscale-2 text-center mt-2">
                     Zuletzt verbunden <br />
                     vor {timeDelta(selectedDeviceData.timestamp)} <br />({selectedDeviceData.timestamp} GMT)
                   </p>
                 ) : (
-                  <p className="text-sm text-ms-accent-2 text-center mt-2">Gerät noch nie verbunden</p>
+                  <p className="text-sm text-ms-grayscale-2 text-center mt-2">Gerät noch nie verbunden</p>
                 )}
               </div>
             </div>
             <div className="flex flex-col">
-              <div className="flex items-center gap-3 bg-ms-hbg h-[7vh] min-h-[64px] w-[60vw] rounded-se-md border-ms-accent pb-2">
+              <div className="flex items-center gap-3 bg-ms-hbg h-[7vh] min-h-[64px] w-[60vw] rounded-se-md border-ms-grayscale pb-2">
                 <div className="absolute right-4">
                   <IconButton variant="text" color="blue-gray" onClick={closeDeviceMenuHandler}>
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="h-5 w-5">
@@ -421,7 +431,7 @@ export default function Page() {
                         onKeyDown={te_handleKeyDown}
                       />
                     </div>
-                    <p className="text-ms-accent-3 text-sm">{te_inputLength} / 32 Zeichen</p>
+                    <p className="text-ms-grayscale-3 text-sm">{te_inputLength} / 32 Zeichen</p>
                   </div>
                 ) : (
                   <div>
@@ -430,15 +440,15 @@ export default function Page() {
                       onClick={te_handleEditName}
                     >
                       <p className="text-ms-fg text-2xl font-bold">{selectedDeviceData.devicefriendlyname}</p>
-                      <div className="mdi mdi-pencil text-lg text-ms-accent-3"></div>
+                      <div className="mdi mdi-pencil text-lg text-ms-grayscale--3"></div>
                     </div>
-                    <p className="text-ms-accent-3 text-sm">UID: {selectedDeviceData.devicename}</p>
+                    <p className="text-ms-grayscale-3 text-sm">UID: {selectedDeviceData.devicename}</p>
                   </div>
                 )}
               </div>
               {/* Viewer Window right side below */}
-              <div className="flex-1 bg-ms-bg rounded-md border border-ms-accent">
-                <FrappeChartComponent apiDeviceParam={selectedDeviceData.devicename} />
+              <div className="flex-1 bg-ms-bg rounded-md border border-ms-grayscale">
+                <ChartComponent apiDeviceParam={selectedDeviceData.devicename} />
               </div>
             </div>
           </div>
