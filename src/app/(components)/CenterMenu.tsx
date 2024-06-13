@@ -15,7 +15,7 @@ export default function CenterMenu() {
   const [openMenu, setOpenMenu] = React.useState(false);
 
   return (
-    <Menu open={openMenu} handler={setOpenMenu} allowHover>
+    <Menu open={openMenu} /*handler={setOpenMenu}*/ allowHover>
       <MenuHandler>
         <div className="nav-box mb-0.5">
           <div className="flex items-center justify-end -mb-0.5">
@@ -30,7 +30,7 @@ export default function CenterMenu() {
       <MenuList className="hidden w-[36rem] grid-cols-7 gap-3 overflow-visible lg:grid border-ms-grayscale">
         <Card
           shadow={false}
-          className="col-span-3 flex h-full w-full items-center justify-center rounded-md p-4 bg-ms-fg sa-sm hover-dark outline-none select-none"
+          className="col-span-3 flex h-full w-full items-center justify-center rounded-md p-4 bg-ms-fg sa-sm hover:bg-ms-grayscale-3 transition-all duration-500 outline-none select-none"
         >
           <Typography variant="h4" className="pr-9 text-ms-hbg">
             Willkommen!

@@ -29,7 +29,7 @@
     --ms-primary: #496a4d;
     --ms-secondary: #7b9f80;
 
-    --ms-ms-accent: #079544;
+    --ms-accent: #098840;
     --ms-orange: #ff8300;
     --ms-red: #bf0e3a;
     --mika-flag: #3d0000;
@@ -51,7 +51,7 @@
       --ms-primary: #496a4d;
       --ms-secondary: #7b9f80;
 
-      --ms-ms-accent: #079544;
+      --ms-accent: #098840;
       --ms-orange: #db6301;
       --ms-red: #bf0e3a;
       --mika-flag: #3d0000;
@@ -263,13 +263,13 @@ footer {
 }
 
 .button-3 {
-  background-color: var(--ms-ms-grayscale-3);
+  background-color: var(--ms-grayscale-3);
   color: var(--ms-bg);
 
   transition: all 0.15s ease;
 
   &:hover {
-    background-color: var(--ms-colored);
+    background-color: var(--ms-secondary);
   }
 }
 

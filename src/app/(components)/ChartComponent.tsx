@@ -95,8 +95,8 @@ const ChartComponent: React.FC<ChartComponentProps> = ({ apiDeviceParam }) => {
       {
         label: "Bodenfeuchte",
         data: measurementData,
-        borderColor: tailwindConfig.theme.colors["ms-primary"],
-        backgroundColor: tailwindConfig.theme.colors["ms-hbg"],
+        borderColor: "#496a4d",
+        backgroundColor: "#ffffff",
         pointRadius: 4,
         pointHitRadius: 10,
         cubicInterpolationMode: "monotone",
@@ -110,8 +110,8 @@ const ChartComponent: React.FC<ChartComponentProps> = ({ apiDeviceParam }) => {
       {
         label: "Wasserstand",
         data: waterlevelData,
-        borderColor: tailwindConfig.theme.colors["ms-secondary"],
-        backgroundColor: tailwindConfig.theme.colors["ms-hbg"],
+        borderColor: "#7b9f80",
+        backgroundColor: "#ffffff",
         pointRadius: 4,
         pointHitRadius: 10,
         cubicInterpolationMode: "monotone",
@@ -130,7 +130,7 @@ const ChartComponent: React.FC<ChartComponentProps> = ({ apiDeviceParam }) => {
     mode: "vertical",
     scaleID: "x",
     value: date,
-    borderColor: tailwindConfig.theme.colors["ms-fg"],
+    borderColor: "#1c2c3c",
     borderWidth: 1,
   }));
 
