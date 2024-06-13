@@ -82,7 +82,7 @@ const DeviceCard = ({ device, onClick }: DeviceCardProps) => {
 
   return (
     <div
-      className="flex flex-col w-52 border rounded-md overflow-hidden cursor-pointer shadow-lg shadow-gray-200 hover:shadow-gray-300 hover:scale-105 tr"
+      className="flex flex-col w-52 border border-ms-grayscale rounded-md overflow-hidden cursor-pointer shadow-lg hover:scale-105 tr"
       onClick={onClick}
     >
       <div className="bg-ms-hbg border-b border-ms-grayscale">
@@ -300,12 +300,12 @@ export default function Page() {
                     checked={Boolean(selectedDeviceData.status)}
                     onChange={handleSwitchChange}
                     ripple={false}
-                    className="h-full w-full checked:bg-ms-primary"
+                    className="h-full w-full bg-ms-grayscale checked:bg-ms-primary"
                     containerProps={{
                       className: "w-11 h-6",
                     }}
                     circleProps={{
-                      className: "before:hidden left-0.5 border-none",
+                      className: "before:hidden left-0.5 border-none bg-switch-circle",
                     }}
                   />
                 </div>
@@ -324,12 +324,12 @@ export default function Page() {
                       type="text"
                       value={(selectedDeviceData.currentsoilhumid || "-") + " %"}
                       disabled={true}
-                      className="w-16 border border-ms-grayscale rounded-md text-center outline-none text-sm"
+                      className="w-16 border border-ms-grayscale rounded-md text-center outline-none text-sm bg-ms-hbg"
                     />
                   </div>
                   <div className="flex-start flex h-2.5 w-full overflow-hidden rounded-full bg-ms-grayscale font-sans text-xs font-medium">
                     <div
-                      className="flex h-full items-center justify-center overflow-hidden break-all rounded-full bg-ms-secondary text-white"
+                      className="flex h-full items-center justify-center overflow-hidden break-all rounded-full bg-ms-secondary text-ms-fg"
                       style={{ width: `${selectedDeviceData.currentsoilhumid}%` }}
                     ></div>
                   </div>
@@ -381,12 +381,12 @@ export default function Page() {
                       type="text"
                       value={(selectedDeviceData.battery || "-") + " %"}
                       disabled={true}
-                      className="w-16 border border-ms-grayscale rounded-md text-center outline-none text-sm"
+                      className="w-16 border border-ms-grayscale rounded-md text-center outline-none text-sm bg-ms-hbg"
                     />
                   </div>
                   <div className="flex-start flex h-2.5 w-full overflow-hidden rounded-full bg-ms-grayscale font-sans text-xs font-medium">
                     <div
-                      className="flex h-full items-center justify-center overflow-hidden break-all rounded-full bg-ms-secondary text-white"
+                      className="flex h-full items-center justify-center overflow-hidden break-all rounded-full bg-ms-secondary text-ms-fg"
                       style={{ width: `${selectedDeviceData.battery || 0}%` }}
                     ></div>
                   </div>

@@ -7,6 +7,8 @@ import { de } from "date-fns/locale";
 import { subDays } from "date-fns";
 import tailwindConfig from "../../../tailwind.config";
 
+import { Select, Option } from "@material-tailwind/react";
+
 ChartJS.register(CategoryScale, LinearScale, TimeScale, LineElement, PointElement, Legend, Tooltip, Title, Annotation);
 
 interface ChartComponentProps {
@@ -20,6 +22,12 @@ const ChartComponent: React.FC<ChartComponentProps> = ({ apiDeviceParam }) => {
   const [measurementData, setMeasurementData] = useState<number[]>([]);
   const [timestampLabels, setTimestampLabels] = useState<string[]>([]);
   const [pumpActivationDates, setPumpActivationDates] = useState<any[]>([]);
+
+  const [selectedTimeFrame, setSelectedTimeFrame] = useState(30);
+
+  const generateDateArray = (timeFrame: number) => {
+    return Array.from({ length: timeFrame }, (_, i) => subDays(new Date(), i).toISOString().split("T")[0]).reverse();
+  };
 
   useEffect(() => {
     const fetchData = async () => {
@@ -47,7 +55,7 @@ const ChartComponent: React.FC<ChartComponentProps> = ({ apiDeviceParam }) => {
 
   useEffect(() => {
     if (device1) {
-      const last14Days = Array.from({ length: 28 }, (_, i) => subDays(new Date(), i).toISOString().split("T")[0]).reverse();
+      const dateArray = generateDateArray(selectedTimeFrame);
 
       const waterlevelMap = new Map();
       const measurementMap = new Map();
@@ -68,16 +76,16 @@ const ChartComponent: React.FC<ChartComponentProps> = ({ apiDeviceParam }) => {
         pumpActivationDatesSet.add(date);
       });
 
-      const waterlevelData = last14Days.map((date) => (waterlevelMap.has(date) ? waterlevelMap.get(date) : null));
-      const measurementData = last14Days.map((date) => (measurementMap.has(date) ? measurementMap.get(date) : null));
+      const waterlevelData = dateArray.map((date) => (waterlevelMap.has(date) ? waterlevelMap.get(date) : null));
+      const measurementData = dateArray.map((date) => (measurementMap.has(date) ? measurementMap.get(date) : null));
       const pumpActivationDates = Array.from(pumpActivationDatesSet);
 
-      setTimestampLabels(last14Days);
+      setTimestampLabels(dateArray);
       setWaterlevelData(waterlevelData);
       setMeasurementData(measurementData);
       setPumpActivationDates(pumpActivationDates);
     }
-  }, [device1]);
+  }, [device1, selectedTimeFrame]);
 
   const skipped = (ctx: any, value: any) => (ctx.p0.skip || ctx.p1.skip ? value : undefined);
 
@@ -214,9 +222,28 @@ const ChartComponent: React.FC<ChartComponentProps> = ({ apiDeviceParam }) => {
     },
   };
 
+  const timeFrameOptions = [
+    { label: "1 Monat", value: "30" },
+    { label: "3 Monate", value: "90" },
+    { label: "6 Monate", value: "120" },
+    { label: "1 Jahr", value: "365" },
+  ];
+
+  const handleTimeFrameChange = (e) => {
+    setSelectedTimeFrame(e);
+  };
+
   return (
-    <div className="p-4 pt-6">
+    <div className="flex flex-col gap-4 p-4 pt-6">
       <Line ref={chartRef} options={options} data={lineChartData} />
+      <div className="w-72 ml-8">
+        <Select label="Ausgewählter Zeitraum" value={selectedTimeFrame.toString()} onChange={handleTimeFrameChange} className="bg-ms-hbg">
+          <Option value="30">1 Monat</Option>
+          <Option value="90">3 Monate</Option>
+          <Option value="120">6 Monate</Option>
+          <Option value="365">1 Jahr</Option>
+        </Select>
+      </div>
     </div>
   );
 };

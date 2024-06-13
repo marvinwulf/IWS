@@ -139,7 +139,12 @@ const SelectorFader2: React.FC<SelectorFaderProps> = ({
       </div>
       <div className="flex justify-between items-center relative top-2 w-full text-sm mb-2">
         <p>{settingName}</p>
-        <input type="text" value={displayValue(value)} disabled={true} className="w-16 border border-ms-grayscale rounded-md text-center outline-none" />
+        <input
+          type="text"
+          value={displayValue(value)}
+          disabled={true}
+          className="w-16 border border-ms-grayscale rounded-md text-center outline-none bg-ms-hbg"
+        />
       </div>
     </div>
   );

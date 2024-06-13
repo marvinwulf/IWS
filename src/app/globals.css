@@ -15,20 +15,50 @@
   }
 }
 
-:root {
-  --ms-fg: #1c2c3c;
-  --ms-hbg: #fff;
-  --ms-bg: #f9fafb;
-  --ms-accent: #eaeaea;
-  --ms-accent-1: #c2c2c2;
-  --ms-accent-2: #a8a8a8;
-  --ms-accent-3: #616161;
-  --ms-colored: #496a4d;
-  --ms-button-hover: #f0f2f4;
+@layer base {
+  :root {
+    --ms-fg: #1c2c3c;
+    --ms-hbg: #ffffff;
+    --ms-bg: #f9fafb;
+    --ms-grayscale: #eaeaea;
+    --ms-grayscale-1: #c2c2c2;
+    --ms-grayscale-2: #a8a8a8;
+    --ms-grayscale-3: #616161;
+    --ms-button-hover: #f0f2f4;
 
-  --ms-green: #46996a;
-  --ms-orange: #ff6100;
-  --ms-red: #d80032;
+    --ms-primary: #496a4d;
+    --ms-secondary: #7b9f80;
+
+    --ms-ms-accent: #079544;
+    --ms-orange: #ff8300;
+    --ms-red: #bf0e3a;
+    --mika-flag: #3d0000;
+
+    --switch-circle: #ffffff;
+  }
+
+  /* @media (prefers-color-scheme: dark) {
+    :root {
+      --ms-fg: #ded6e6;
+      --ms-hbg: #18212b;
+      --ms-bg: #121b24;
+      --ms-grayscale: #333142;
+      --ms-grayscale-1: #5b586d;
+      --ms-grayscale-2: #77738b;
+      --ms-grayscale-3: #cdc9e0;
+      --ms-button-hover: #26323d;
+
+      --ms-primary: #496a4d;
+      --ms-secondary: #7b9f80;
+
+      --ms-ms-accent: #079544;
+      --ms-orange: #db6301;
+      --ms-red: #bf0e3a;
+      --mika-flag: #3d0000;
+
+      --switch-circle: #ded6e6;
+    }
+  } */
 }
 
 body,
@@ -54,7 +84,7 @@ header {
   padding: 0 32px;
 
   background-color: var(--ms-hbg);
-  box-shadow: inset 0 -1px 0 0 var(--ms-accent);
+  box-shadow: inset 0 -1px 0 0 var(--ms-grayscale);
 }
 
 main {
@@ -81,7 +111,7 @@ footer {
   padding: 0;
 
   background-color: var(--ms-hbg);
-  box-shadow: inset 0 1px 0 0 var(--ms-accent);
+  box-shadow: inset 0 1px 0 0 var(--ms-grayscale);
 }
 
 .highlight {
@@ -199,7 +229,7 @@ footer {
   padding: 4px 8px;
   margin-left: 4px;
   display: inline-block;
-  color: var(--ms-accent-3);
+  color: var(--ms-ms-grayscale-3);
 
   transition: all 0.15s ease;
 
@@ -233,7 +263,7 @@ footer {
 }
 
 .button-3 {
-  background-color: var(--ms-accent-3);
+  background-color: var(--ms-ms-grayscale-3);
   color: var(--ms-bg);
 
   transition: all 0.15s ease;
@@ -273,7 +303,7 @@ footer {
   transition: all 0.35s ease;
 
   &:hover {
-    background-color: var(--ms-accent-4);
+    background-color: var(--ms-ms-grayscale-4);
   }
 }
 

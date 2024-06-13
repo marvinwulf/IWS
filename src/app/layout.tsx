@@ -12,6 +12,8 @@ import LoadCPU from "./(components)/LoadCPU";
 import LoadMemory from "./(components)/LoadMemory";
 import LoadDisk from "./(components)/LoadDisk";
 
+import ThemeToggle from "./(components)/ThemeToggle";
+
 const roboto = Montserrat({
   subsets: ["latin"],
   weight: ["100", "300", "400", "500", "700", "900"],
@@ -50,6 +52,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
               <div className="button-1 text-sm cursor-pointer" onClick={toggleDrawer}>
                 Kontakt
               </div>
+              {/* <ThemeToggle></ThemeToggle> */}
             </div>
 
             <div className="flex items-center ms-dummy">

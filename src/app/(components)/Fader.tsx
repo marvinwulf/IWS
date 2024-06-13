@@ -124,7 +124,7 @@ const SelectorFader: React.FC<SelectorFaderProps> = ({
           type="text"
           value={Math.round(value) + " %"}
           disabled={true}
-          className="w-16 border border-ms-grayscale rounded-md text-center outline-none"
+          className="w-16 border border-ms-grayscale rounded-md text-center outline-none bg-ms-hbg"
         />
       </div>
     </div>
