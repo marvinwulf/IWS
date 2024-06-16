@@ -16,7 +16,7 @@ interface ChartComponentProps {
 }
 
 const ChartComponent: React.FC<ChartComponentProps> = ({ apiDeviceParam }) => {
-  const chartRef = useRef<HTMLCanvasElement>(null);
+  const chartRef = useRef<ChartJS<"line", number[], string> | null>(null);
   const [device1, setDevice1] = useState<any>();
   const [waterlevelData, setWaterlevelData] = useState<number[]>([]);
   const [measurementData, setMeasurementData] = useState<number[]>([]);
@@ -164,7 +164,7 @@ const ChartComponent: React.FC<ChartComponentProps> = ({ apiDeviceParam }) => {
           label: (TooltipItem: any) => {
             if (TooltipItem.dataset.label === "Wasserstand") {
               const index = TooltipItem.formattedValue;
-              const mapping = { 2: "vollständig gefüllt", 1: "ausreichend gefüllt", 0: "nahezu leer" };
+              const mapping = ["nahezu leer", "ausreichend gefüllt", "vollständig gefüllt"];
 
               return " Tank " + mapping[index];
             } else {
@@ -249,7 +249,7 @@ const ChartComponent: React.FC<ChartComponentProps> = ({ apiDeviceParam }) => {
     { label: "1 Jahr", value: "365" },
   ];
 
-  const handleTimeFrameChange = (e) => {
+  const handleTimeFrameChange = (e: any) => {
     setSelectedTimeFrame(e);
   };
 
