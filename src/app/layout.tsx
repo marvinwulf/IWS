@@ -1,7 +1,7 @@
 "use client";
 
 import "./globals.css";
-import { Roboto, Montserrat } from "next/font/google";
+import { Roboto as Font } from "next/font/google";
 
 import React from "react";
 import Image from "next/image";
@@ -14,10 +14,9 @@ import LoadDisk from "./(components)/LoadDisk";
 
 import ThemeToggle from "./(components)/ThemeToggle";
 
-const roboto = Montserrat({
+const font = Font({
   subsets: ["latin"],
-  weight: ["100", "300", "400", "500", "700", "900"],
-  variable: "--font-montserrat",
+  weight: ["400"],
 });
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
@@ -25,7 +24,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   const toggleDrawer = () => setOpend((cur) => !cur);
 
   return (
-    <html lang="en" className={roboto.variable}>
+    <html lang="en" className={font.className}>
       <head>
         <title>MS Solutions IWS</title>
         <meta name="description" content="The MS Dashboard to easily manage IWS devices centrally on a network." />
@@ -49,9 +48,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             <div className="flex items-center solutions-text justify-end" style={{ width: "241.75px", height: "36px" }}>
               <div className="button-1 text-sm cursor-pointer">Docs</div>
               <div className="button-1 text-sm cursor-pointer">Über Uns</div>
-              <div className="button-1 text-sm cursor-pointer" onClick={toggleDrawer}>
-                Kontakt
-              </div>
+              <div className="button-1 text-sm cursor-pointer" /*onClick={toggleDrawer}*/>Kontakt</div>
             </div>
 
             <div className="flex items-center ms-dummy">

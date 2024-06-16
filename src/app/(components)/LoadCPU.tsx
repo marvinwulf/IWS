@@ -105,7 +105,7 @@ export default function LoadCPU() {
           <div className="flex items-center">
             <div className="w-10 text-sm text-right -mr-0.5">{cpuLoad}%</div>
             <div className="mdi mdi-memory px-2"></div>
-            <div className="flex-start flex h-1.5 w-48 overflow-hidden rounded-full bg-ms-grayscale font-sans text-xs font-medium">
+            <div className="flex-start flex h-1.5 w-48 overflow-hidden rounded-full bg-ms-grayscale text-xs font-medium">
               <div
                 className="flex h-full items-center justify-center overflow-hidden break-all rounded-full bg-ms-primary text-white"
                 style={{ width: `${cpuLoad || 0}%` }}
@@ -129,7 +129,7 @@ export default function LoadCPU() {
                     <i className="mdi mdi-poll "></i>
                   </div>
                 </div>
-                <Typography variant="h4" className="text-ms-grayscale-3 font-light mb-[1px]  text-end w-[100px]">
+                <Typography variant="h4" className="text-ms-grayscale-3 font-light mb-[1px] text-end w-[100px]">
                   {systemInfo.speed} GHz
                 </Typography>
               </div>
