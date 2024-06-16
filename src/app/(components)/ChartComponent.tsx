@@ -73,7 +73,9 @@ const ChartComponent: React.FC<ChartComponentProps> = ({ apiDeviceParam }) => {
 
       device1.pump_activations.forEach((entry: any) => {
         const date = entry.timestamp.split(" ")[0];
-        pumpActivationDatesSet.add(date);
+        if (dateArray.includes(date)) {
+          pumpActivationDatesSet.add(date);
+        }
       });
 
       const waterlevelData = dateArray.map((date) => (waterlevelMap.has(date) ? waterlevelMap.get(date) : null));
@@ -95,9 +97,9 @@ const ChartComponent: React.FC<ChartComponentProps> = ({ apiDeviceParam }) => {
       {
         label: "Bodenfeuchte",
         data: measurementData,
-        borderColor: "#496a4d",
+        borderColor: "#1c2c3c",
         backgroundColor: "#ffffff",
-        pointRadius: 4,
+        pointRadius: 3,
         pointHitRadius: 10,
         cubicInterpolationMode: "monotone",
         spanGaps: true,
@@ -112,7 +114,7 @@ const ChartComponent: React.FC<ChartComponentProps> = ({ apiDeviceParam }) => {
         data: waterlevelData,
         borderColor: "#7b9f80",
         backgroundColor: "#ffffff",
-        pointRadius: 4,
+        pointRadius: 2,
         pointHitRadius: 10,
         cubicInterpolationMode: "monotone",
         spanGaps: true,
@@ -131,7 +133,7 @@ const ChartComponent: React.FC<ChartComponentProps> = ({ apiDeviceParam }) => {
     scaleID: "x",
     value: date,
     borderColor: "#1c2c3c",
-    borderWidth: 1,
+    borderWidth: 0.75,
   }));
 
   const options = {
@@ -151,6 +153,24 @@ const ChartComponent: React.FC<ChartComponentProps> = ({ apiDeviceParam }) => {
           boxHeight: 10,
           boxWidth: 40,
           padding: 8,
+        },
+      },
+      tooltip: {
+        callbacks: {
+          title: (TooltipItem: any) => {
+            const titleContent = TooltipItem[0].label;
+            return titleContent.split(",").slice(0, 2).join(",").trim();
+          },
+          label: (TooltipItem: any) => {
+            if (TooltipItem.dataset.label === "Wasserstand") {
+              const index = TooltipItem.formattedValue;
+              const mapping = { 2: "vollständig gefüllt", 1: "ausreichend gefüllt", 0: "nahezu leer" };
+
+              return " Tank " + mapping[index];
+            } else {
+              return " " + TooltipItem.dataset.label + ": " + TooltipItem.formattedValue + " %";
+            }
+          },
         },
       },
       annotation: {

@@ -17,7 +17,7 @@ export default function LoadMemory() {
       if (!document.hidden) {
         fetchMemInfo();
       }
-    }, 16000);
+    }, 4000);
 
     return () => clearInterval(interval);
   }, []);
@@ -67,7 +67,7 @@ export default function LoadMemory() {
             <div className="mdi mdi-chip px-2"></div>
             <div className="flex-start flex h-1.5 w-48 overflow-hidden rounded-full bg-ms-grayscale font-sans text-xs font-medium">
               <div
-                className="flex h-full items-center justify-center overflow-hidden break-all rounded-full bg-ms-accent text-white"
+                className="flex h-full items-center justify-center overflow-hidden break-all rounded-full bg-ms-primary text-white"
                 style={{ width: `${memLoad || 0}%` }}
               ></div>
             </div>

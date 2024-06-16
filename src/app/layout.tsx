@@ -47,12 +47,11 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             </div>
 
             <div className="flex items-center solutions-text justify-end" style={{ width: "241.75px", height: "36px" }}>
-              {/* <div className="button-1 text-sm cursor-pointer">Docs</div>
+              <div className="button-1 text-sm cursor-pointer">Docs</div>
               <div className="button-1 text-sm cursor-pointer">Über Uns</div>
               <div className="button-1 text-sm cursor-pointer" onClick={toggleDrawer}>
                 Kontakt
               </div>
-              <ThemeToggle></ThemeToggle> */}
             </div>
 
             <div className="flex items-center ms-dummy">
@@ -64,9 +63,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
 
           <footer>
             <div className="flex items-center w-full ml-4 gap-4">
-              {/* <LoadCPU />
+              <LoadCPU />
               <LoadMemory />
-              <LoadDisk /> */}
+              <LoadDisk />
             </div>
           </footer>
 

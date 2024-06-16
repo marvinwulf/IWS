@@ -87,7 +87,7 @@ const DeviceCard = ({ device, onClick }: DeviceCardProps) => {
     >
       <div className="bg-ms-hbg border-b border-ms-grayscale">
         <div className="flex items-center px-4 py-3 gap-3 -mb-0.5">
-          <div className={`aspect-square h-[8px] rounded-lg ${device.status === 1 ? "bg-ms-primary" : "bg-ms-red"}`}></div>
+          <div className={`aspect-square h-[8px] rounded-lg ${device.status === 1 ? "bg-ms-accent" : "bg-ms-red"}`}></div>
           <p className="text-ms-fg font-light text-lg whitespace-nowrap overflow-x-clip overflow-ellipsis w-40" title={device.devicefriendlyname}>
             {device.devicefriendlyname}
           </p>

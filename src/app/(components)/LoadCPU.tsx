@@ -107,7 +107,7 @@ export default function LoadCPU() {
             <div className="mdi mdi-memory px-2"></div>
             <div className="flex-start flex h-1.5 w-48 overflow-hidden rounded-full bg-ms-grayscale font-sans text-xs font-medium">
               <div
-                className="flex h-full items-center justify-center overflow-hidden break-all rounded-full bg-ms-accent text-white"
+                className="flex h-full items-center justify-center overflow-hidden break-all rounded-full bg-ms-primary text-white"
                 style={{ width: `${cpuLoad || 0}%` }}
               ></div>
             </div>
